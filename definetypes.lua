@@ -1,0 +1,7 @@
+require "entities.player.player"
+require "entities.camera.camera"
+require "entities.enemies.enemy"
+require "entities.enemies.prioritypoint"
+require "entities.enemies.knight.knight"
+require "gui.pauser"
+require "world.props.levelportal.portal"
