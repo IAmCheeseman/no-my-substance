@@ -1,7 +1,7 @@
 
 local excluded_dirs = {
     "/.git",
-    "/base",
+    "/core",
 }
 
 local excluded_files = {
