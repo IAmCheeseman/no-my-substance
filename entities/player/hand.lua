@@ -11,6 +11,6 @@ Objects.create_type("Hand", {
         self.x = self.target.x
         self.y = self.target.y
 
-        print(self.x, self.y)
+        self.depth = self.target.depth + 1
     end
 })

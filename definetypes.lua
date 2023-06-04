@@ -29,7 +29,6 @@ local function recurse_and_require(path)
             if info.type == "file" and not is_excluded(file, excluded_files) then
                 if string.find(file, ".lua") then
                     require(string.gsub(file, ".lua$", ""))
-                    print(file)
                 end
             elseif info.type == "directory" and not is_excluded(file, excluded_dirs) then
                 recurse_and_require(file)
