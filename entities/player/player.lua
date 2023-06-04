@@ -25,7 +25,9 @@ local function default(self, dt)
     end
 
     local accel_delta = self.accel
-    if Vector.dot(self.vel_x, self.vel_y, input_x, input_y) < 0.5 then
+
+    local nvel_x, nvel_y = Vector.normalized(self.vel_x, self.vel_y)
+    if Vector.dot(nvel_x, nvel_y, input_x, input_y) < 0 then
         accel_delta = self.frict
     end
 
@@ -52,7 +54,7 @@ Objects.create_type("Player", {
     speed = 150,
     roll_speed = 300,
     accel = 10,
-    frict = 200,
+    frict = 20,
 
     x = 50,
     y = 150,
