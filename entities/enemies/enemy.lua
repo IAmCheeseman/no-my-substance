@@ -3,10 +3,24 @@ Objects.create_type("Enemy", {
     sprite = nil,
     target = nil,
 
+    health = 10,
+    max_health = 10,
+
     push_speed = 300,
     
     vel_x = 0,
     vel_y = 0,
+
+    take_damage = function(self, damage, kb_x, kb_y)
+        self.health = self.health - damage
+        
+        if self.health <= 0 then
+            Objects.destroy(self)
+        end
+
+        self.vel_x = self.vel_x + kb_x
+        self.vel_y = self.vel_y + kb_y
+    end,
 
     on_create = function(self)
         self.shadow = self.sprite:copy()

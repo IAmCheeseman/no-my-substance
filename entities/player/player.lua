@@ -18,18 +18,10 @@ local function default(self, dt)
     end
 
     local mouse_x, mouse_y = love.mouse.getPosition()
-    if self.x > mouse_x then
-        self.sprite.scale_x = -1
-    else
-        self.sprite.scale_x = 1
-    end
-
-    local accel_delta = self.accel
+    self.sprite.scale_x = self.x > mouse_x and -1 or 1
 
     local nvel_x, nvel_y = Vector.normalized(self.vel_x, self.vel_y)
-    if Vector.dot(nvel_x, nvel_y, input_x, input_y) < 0 then
-        accel_delta = self.frict
-    end
+    local accel_delta = Vector.dot(nvel_x, nvel_y, input_x, input_y) < 0.1 and self.frict or self.accel
 
     self.vel_x = math.lerp(self.vel_x, input_x * self.speed, accel_delta * dt)
     self.vel_y = math.lerp(self.vel_y, input_y * self.speed, accel_delta * dt)

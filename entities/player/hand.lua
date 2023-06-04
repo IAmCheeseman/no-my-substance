@@ -33,6 +33,16 @@ Objects.create_type("Hand", {
     on_mouse_press = function(self, _, _, button, _, _)
         if button == 1 then
             self.sprite:apply_animation(self.swing_animation)
+            
+            local dir_x, dir_y = Vector.direction_between(self.x, self.y, love.mouse.getPosition())
+            Objects.with("Enemy", function(other)
+                local de_x, de_y = Vector.direction_between(self.x, self.y, other.x, other.y)
+                local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
+                local dot = Vector.dot(dir_x, dir_y, de_x, de_y)
+                if dot > 0.5 and dist < 32 then
+                    
+                end
+            end)
         end
     end
 })
