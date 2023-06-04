@@ -6,7 +6,7 @@ Objects.create_type("LevelPortal", {
     depth = -1,
 
     on_create = function(self)
-        self.player = Objects.grab_object("Player")
+        self.player = Objects.grab("Player")
 
         self.vortex_upper.offset_x = self.vortex_upper.texture:getWidth() / 2
         self.vortex_upper.offset_y = self.vortex_upper.texture:getHeight() / 2

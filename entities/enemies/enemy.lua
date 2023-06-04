@@ -11,7 +11,7 @@ Objects.create_type("Enemy", {
     on_create = function(self)
         self.shadow = self.sprite:copy()
 
-        self.player = Objects.grab_object("Player")
+        self.player = Objects.grab("Player")
     end,
     on_update = function(self, dt)
         local push_x = 0

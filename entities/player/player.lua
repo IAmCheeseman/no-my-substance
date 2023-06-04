@@ -76,7 +76,7 @@ Objects.create_type("Player", {
 
 
     on_create = function(self)
-        local camera = Objects.grab_object("Camera")
+        local camera = Objects.grab("Camera")
         camera.tracked = self
 
         self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
@@ -85,6 +85,8 @@ Objects.create_type("Player", {
 
         self:create_timer("stop_roll", self.stop_roll, 0.3)
         self:create_timer("roll_cooldown", nil, 0.75)
+
+        self.hand = Objects.instance_at("Hand", self.x, self.y)
     end,
     on_update = function(self, dt)
         self:state(dt)
