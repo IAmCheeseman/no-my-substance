@@ -1,4 +1,4 @@
-Game = require "base.lib"
+Game = require "base"
 
 love.graphics.setDefaultFilter("nearest", "nearest")
 require "definetypes"
