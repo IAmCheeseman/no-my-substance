@@ -121,6 +121,13 @@ Objects.create_type("Player", {
     on_update = function(self, dt)
         self:state(dt)
         self.depth = self.y
+
+        if love.keyboard.isDown("r") then
+            if love.keyboard.isDown("lshift") then
+                current_level = 0
+            end
+            Room.change_to("Level_" .. current_level)
+        end
     end,
     on_draw = function(self)
         self.shadow.scale_x = self.sprite.scale_x
