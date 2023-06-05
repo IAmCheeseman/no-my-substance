@@ -1,6 +1,7 @@
 
 Objects.create_type("Enemy", {
     sprite = nil,
+    corpse_sprite = nil,
     target = nil,
 
     damage_flash_shader = love.graphics.newShader("entities/damageflash.fs"),
@@ -19,6 +20,11 @@ Objects.create_type("Enemy", {
         self.health = self.health - damage
         
         if self.health <= 0 then
+            local corpse = Objects.instance_at("Corpse", self.x, self.y)
+            corpse.vel_x = kb_x * self.kb_strength
+            corpse.vel_y = kb_y * self.kb_strength
+            corpse.sprite = self.corpse_sprite
+
             Objects.destroy(self)
         end
 

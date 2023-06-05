@@ -23,6 +23,7 @@ end
 
 Objects.create_type_from("Knight", "Enemy", {
     sprite = Sprite.new("entities/enemies/knight/knight.png", 7, 10),
+    corpse_sprite = Sprite.new("entities/enemies/knight/knightcorpse.png", 1, 0),
     idle_animation = Sprite.new_animation(1, 3, 10),
     walk_animation = Sprite.new_animation(4, 6, 10),
 
