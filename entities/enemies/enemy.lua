@@ -3,6 +3,8 @@ Objects.create_type("Enemy", {
     sprite = nil,
     target = nil,
 
+    damage_flash_shader = love.graphics.newShader("entities/damageflash.fs"),
+
     damage = 2.5,
     health = 10,
     max_health = 10,
@@ -22,12 +24,16 @@ Objects.create_type("Enemy", {
 
         self.vel_x = self.vel_x + kb_x * self.kb_strength
         self.vel_y = self.vel_y + kb_y * self.kb_strength
+
+        self.timers.iframes:start()
     end,
 
     on_create = function(self)
         self.shadow = self.sprite:copy()
 
         self.player = Objects.grab("Player")
+
+        self:create_timer("iframes", nil, 0.2)
     end,
     on_update = function(self, dt)
         local push_x = 0
@@ -80,6 +86,10 @@ Objects.create_type("Enemy", {
         love.graphics.setColor(0, 0, 0, 0.5)
         self.shadow:draw(self.x, self.y)
         love.graphics.setColor(1, 1, 1, 1)
+
+        love.graphics.setShader(self.damage_flash_shader)
+        self.damage_flash_shader:send("is_on", self.timers.iframes.time < 0 and 0 or 1)
         self.sprite:draw(self.x, self.y)
+        love.graphics.setShader()
     end
 })

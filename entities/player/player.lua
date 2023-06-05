@@ -47,6 +47,8 @@ Objects.create_type("Player", {
     walking_animation = Sprite.new_animation(4, 6, 15),
     rolling_animation = Sprite.new_animation(7, 7, 0),
 
+    damage_flash_shader = love.graphics.newShader("entities/damageflash.fs"),
+
     health = 10,
     max_health = 10,
 
@@ -127,6 +129,10 @@ Objects.create_type("Player", {
         love.graphics.setColor(0, 0, 0, 0.5)
         self.shadow:draw(self.x, self.y)
         love.graphics.setColor(1, 1, 1, 1)
+
+        love.graphics.setShader(self.damage_flash_shader)
+        self.damage_flash_shader:send("is_on", self.timers.iframes.time < 0 and 0 or 1)
         self.sprite:draw(self.x, self.y)
+        love.graphics.setShader()
     end
 })
