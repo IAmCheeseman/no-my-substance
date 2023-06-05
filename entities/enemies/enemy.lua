@@ -67,7 +67,7 @@ Objects.create_type("Enemy", {
 
         self.depth = self.y
 
-        if Vector.distance_between(self.x, self.y, self.player.x, self.player.y) < 8 then
+        if Vector.distance_between(self.x, self.y, self.player.x, self.player.y) < 8 and self.damage > 0 then
             local kb_x, kb_y = Vector.direction_between(self.x, self.y, self.player.x, self.player.y)
             self.player:take_damage(self.damage, kb_x, kb_y)
         end
