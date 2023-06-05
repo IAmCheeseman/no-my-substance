@@ -1,7 +1,12 @@
 local collision = require "entities.collide"
 
 local function dead(self, dt)
+    self.sprite:apply_animation(self.dead_animation)
 
+    self.vel_x = math.lerp(self.vel_x, 0, 3 * dt)
+    self.vel_y = math.lerp(self.vel_y, 0, 3 * dt)
+
+    collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
 end
 
 local function roll(self, dt)
@@ -46,6 +51,7 @@ Objects.create_type("Player", {
     idle_animation = Sprite.new_animation(1, 3, 10),
     walking_animation = Sprite.new_animation(4, 6, 15),
     rolling_animation = Sprite.new_animation(7, 7, 0),
+    dead_animation = Sprite.new_animation(9, 9, 0),
 
     damage_flash_shader = love.graphics.newShader("entities/damageflash.fs"),
 
@@ -117,10 +123,6 @@ Objects.create_type("Player", {
         self.depth = self.y
     end,
     on_draw = function(self)
-        if self.state == dead then
-            return
-        end
-
         self.shadow.scale_x = self.sprite.scale_x
         self.shadow.scale_y = -self.sprite.scale_y / 2
         self.shadow.rotation = self.sprite.rotation
