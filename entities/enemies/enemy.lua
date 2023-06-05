@@ -7,6 +7,7 @@ Objects.create_type("Enemy", {
     max_health = 10,
 
     push_speed = 300,
+    kb_strength = 300,
     
     vel_x = 0,
     vel_y = 0,
@@ -18,8 +19,8 @@ Objects.create_type("Enemy", {
             Objects.destroy(self)
         end
 
-        self.vel_x = self.vel_x + kb_x
-        self.vel_y = self.vel_y + kb_y
+        self.vel_x = self.vel_x + kb_x * self.kb_strength
+        self.vel_y = self.vel_y + kb_y * self.kb_strength
     end,
 
     on_create = function(self)
