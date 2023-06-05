@@ -61,7 +61,7 @@ Objects.create_type("Player", {
     speed = 150,
     roll_speed = 300,
     accel = 10,
-    frict = 20,
+    frict = 12,
 
     x = 50,
     y = 150,
