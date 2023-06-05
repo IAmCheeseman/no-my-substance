@@ -1,5 +1,9 @@
 local collision = require "entities.collide"
 
+local function dead(self, dt)
+
+end
+
 local function roll(self, dt)
     self.sprite:apply_animation(self.rolling_animation)
     -- self.sprite.rotation = (self.timers.stop_roll.time / self.timers.stop_roll.total_time) * math.pi * 2
@@ -43,6 +47,9 @@ Objects.create_type("Player", {
     walking_animation = Sprite.new_animation(4, 6, 15),
     rolling_animation = Sprite.new_animation(7, 7, 0),
 
+    health = 10,
+    max_health = 10,
+
     speed = 150,
     roll_speed = 300,
     accel = 10,
@@ -51,10 +58,30 @@ Objects.create_type("Player", {
     x = 50,
     y = 150,
 
+    kb_strength = 300,
+
     vel_x = 0,
     vel_y = 0,
 
     state = default,
+
+    take_damage = function(self, damage, kb_x, kb_y)
+        if self.timers.iframes.time > 0 then
+            return
+        end
+
+        self.health = self.health - damage
+
+        if self.health <= 0 then
+            Objects.destroy(self.hand)
+            self.state = dead
+        end
+
+        self.vel_x = self.vel_x + kb_x * self.kb_strength
+        self.vel_y = self.vel_y + kb_y * self.kb_strength
+
+        self.timers.iframes:start()
+    end,
 
     stop_roll = function(self)
         self.state = default
@@ -79,6 +106,7 @@ Objects.create_type("Player", {
 
         self:create_timer("stop_roll", self.stop_roll, 0.3)
         self:create_timer("roll_cooldown", nil, 0.75)
+        self:create_timer("iframes", nil, 0.5)
 
         self.hand = Objects.instance_at("Hand", self.x, self.y)
     end,
@@ -87,6 +115,10 @@ Objects.create_type("Player", {
         self.depth = self.y
     end,
     on_draw = function(self)
+        if self.state == dead then
+            return
+        end
+
         self.shadow.scale_x = self.sprite.scale_x
         self.shadow.scale_y = -self.sprite.scale_y / 2
         self.shadow.rotation = self.sprite.rotation

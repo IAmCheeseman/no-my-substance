@@ -3,6 +3,7 @@ Objects.create_type("Enemy", {
     sprite = nil,
     target = nil,
 
+    damage = 2.5,
     health = 10,
     max_health = 10,
 
@@ -65,6 +66,11 @@ Objects.create_type("Enemy", {
         self.vel_y = self.vel_y + push_y * self.push_speed * dt
 
         self.depth = self.y
+
+        if Vector.distance_between(self.x, self.y, self.player.x, self.player.y) < 8 then
+            local kb_x, kb_y = Vector.direction_between(self.x, self.y, self.player.x, self.player.y)
+            self.player:take_damage(self.damage, kb_x, kb_y)
+        end
     end,
     on_draw = function(self)
         self.shadow.scale_x = self.sprite.scale_x
