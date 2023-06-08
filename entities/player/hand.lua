@@ -8,8 +8,8 @@ Objects.create_type("Hand", {
         self.target = Objects.grab("Player")
         
         self.sprite:apply_animation(self.idle_animation)
-        self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
         self.sprite.offset_x = -5
+        self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
         self.sprite.center = false
     end,
     on_update = function(self, dt)
@@ -25,6 +25,7 @@ Objects.create_type("Hand", {
         if self.sprite.frame == self.swing_animation.anim_end then -- Swing once
             self.sprite:apply_animation(self.idle_animation)
         end
+
     end,
     on_draw = function(self)
         self.sprite:draw(self.x, self.y)
@@ -34,15 +35,7 @@ Objects.create_type("Hand", {
         if button == 1 then
             self.sprite:apply_animation(self.swing_animation)
             
-            local dir_x, dir_y = Vector.direction_between(self.x, self.y, love.mouse.getPosition())
-            Objects.with("Enemy", function(other)
-                local de_x, de_y = Vector.direction_between(self.x, self.y, other.x, other.y)
-                local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
-                local dot = Vector.dot(dir_x, dir_y, de_x, de_y)
-                if dot > 0 and dist < 48 then
-                    other:take_damage(5, dir_x, dir_y)
-                end
-            end)
+            local swipe = Objects.instance_at("HandSwipe", self.x, self.y)
         end
     end
 })
