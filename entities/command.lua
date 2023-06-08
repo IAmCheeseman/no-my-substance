@@ -1,4 +1,4 @@
-local logger = require "entities.log"
+local logger = require "gui.log"
 
 godmode = false
 

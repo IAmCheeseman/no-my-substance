@@ -1,3 +1,5 @@
+local gui = require "gui.gui"
+
 local module = {}
 local logger = nil
 
@@ -13,15 +15,13 @@ if not Objects.does_type_exist("Logger") then
         
         add_message = function(self, message)
             table.insert(self.messages, 1, {
-                message = message,
-                time_left = 3,
+                message = string.upper(message),
+                time_left = 5,
             })
         end,
 
         on_create = function(self)
             logger = self
-
-            self:add_message("oi")
         end,
 
         on_update = function(self, dt)
@@ -36,6 +36,7 @@ if not Objects.does_type_exist("Logger") then
         end,
 
         on_gui = function(self)
+            love.graphics.setFont(gui.font)
             for i, v in ipairs(self.messages) do
                 local alpha = v.time_left / 3
                 love.graphics.setColor(1, 1, 1, alpha)
