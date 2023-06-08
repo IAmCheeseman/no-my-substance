@@ -74,7 +74,7 @@ Objects.create_type("Player", {
     state = default,
 
     take_damage = function(self, damage, kb_x, kb_y)
-        if self.timers.iframes.time > 0 then
+        if self.timers.iframes.time > 0 or godmode then
             return
         end
 
@@ -122,10 +122,7 @@ Objects.create_type("Player", {
         self:state(dt)
         self.depth = self.y
 
-        if love.keyboard.isDown("r") then
-            if love.keyboard.isDown("lshift") then
-                current_level = 0
-            end
+        if love.keyboard.isDown("r") and self.state == dead then
             Room.change_to("Level_" .. current_level)
         end
     end,

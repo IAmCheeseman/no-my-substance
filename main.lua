@@ -10,4 +10,5 @@ function love.load()
 
     Objects.instance("Pauser")
     Objects.instance("Camera")
+    Objects.instance("CommandExecutor")
 end
