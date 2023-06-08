@@ -1,3 +1,5 @@
+local logger = require "entities.log"
+
 godmode = false
 
 local function is_key_valid(command, key, commands)
@@ -29,9 +31,13 @@ Objects.create_type("CommandExecutor", {
             local level = string.gsub(self.current_command, "[^%d]", "")
             current_level = tonumber(level)
             Room.change_to("Level_" .. level)
+
+            logger.log_message("Changed to level #" .. level)
         end,
         ["gmd"] = function(self)
             godmode = not godmode
+
+            logger.log_message("Godmode is " .. (godmode and "on" or "off"))
         end
     },
 

@@ -8,6 +8,7 @@ current_level = 0
 function love.load()
     Room.initialize("", "levels.ldtk", "Level_" .. tostring(current_level))
 
+    Objects.instance("Logger")
     Objects.instance("Pauser")
     Objects.instance("Camera")
     Objects.instance("CommandExecutor")
