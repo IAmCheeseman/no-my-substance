@@ -22,7 +22,7 @@ Objects.create_type("LevelPortal", {
 
         if Vector.distance_between(self.player.x, self.player.y, self.x, self.y) < 8 and self.open then
             current_level = current_level + 1
-            Room.change_to("Level_" .. tostring(current_level))
+            Room.change_to(get_current_level())
         end
 
         self.vortex_upper.rotation = self.vortex_upper.rotation + dt * 3

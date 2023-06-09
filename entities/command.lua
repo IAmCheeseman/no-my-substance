@@ -44,7 +44,7 @@ Objects.create_type("CommandExecutor", {
         ["chlvl%d"] = function(self)
             local level = string.gsub(self.current_command, "[^%d]", "")
             current_level = tonumber(level)
-            Room.change_to("Level_" .. level)
+            Room.change_to(get_current_level())
 
             logger.log_message("Changed to level #" .. level)
         end,
