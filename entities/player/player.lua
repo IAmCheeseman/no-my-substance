@@ -78,7 +78,7 @@ Objects.create_type("Player", {
     state = default,
 
     take_damage = function(self, damage, kb_x, kb_y)
-        if self.timers.iframes.time > 0 or godmode then
+        if self.timers.iframes.time > 0 or self.state == roll or godmode then
             return
         end
 
