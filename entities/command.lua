@@ -1,6 +1,7 @@
 local logger = require "gui.log"
 
 godmode = false
+player_invisible = false
 
 local function is_key_valid(command, key, commands)
     for k, _ in pairs(commands) do
@@ -13,12 +14,25 @@ end
 
 local function get_command(command, commands)
     for k, v in pairs(commands) do
-        print(command, k)
         if string.find(command, k) ~= nil then
             return v
         end
     end
     return nil
+end
+
+local function kill_player()
+    local player = Objects.grab("Player")
+    player:take_damage(player.max_health, 0, 0)
+
+    logger.log_message("Killed player")
+end
+
+local function reset_health()
+    local player = Objects.grab("Player")
+    player.health = player.max_health
+
+    logger.log_message("Reset health")
 end
 
 Objects.create_type("CommandExecutor", {
@@ -38,7 +52,31 @@ Objects.create_type("CommandExecutor", {
             godmode = not godmode
 
             logger.log_message("Godmode is " .. (godmode and "on" or "off"))
-        end
+        end,
+        ["shp%d"] = function(self)
+            local health = string.gsub(self.current_command, "[^%d]", "")
+            local player = Objects.grab("Player")
+            player.health = math.clamp(tonumber(health), 0, player.max_health)
+
+            logger.log_message("Set health to " .. health .. "/" .. player.max_health)
+        end,
+        ["rhp"] = function(self)
+            reset_health()
+        end,
+        ["oli"] = function(self)
+            reset_health()
+        end,
+        ["kill"] = function(self)
+            kill_player()
+        end,
+        ["dot32"] = function(self)
+            kill_player()
+        end,
+        ["ivis"] = function(self)
+            player_invisible = not player_invisible
+
+            logger.log_message("Invisibility is " .. (player_invisible and "on" or "off"))
+        end,
     },
 
     on_key_press = function(self, key, _, _)

@@ -1,5 +1,4 @@
 local gui = require "gui.gui"
-
 local collision = require "entities.collide"
 
 local function dead(self, dt)

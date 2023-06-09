@@ -42,6 +42,11 @@ Objects.create_type("Enemy", {
         self:create_timer("iframes", nil, 0.2)
     end,
     on_update = function(self, dt)
+        if player_invisible then
+            self.target = self
+            return
+        end
+
         local push_x = 0
         local push_y = 0
 
