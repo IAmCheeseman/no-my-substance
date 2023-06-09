@@ -1,4 +1,6 @@
 Objects.create_type("Camera", {
+    persistent = true,
+
     wx = 0,
     wy = 0,
 
@@ -9,10 +11,6 @@ Objects.create_type("Camera", {
 
     track_speed = 25,
 
-    on_create = function(self)
-        Game.camera_x = self.x
-        Game.camera_y = self.y
-    end,
     on_update = function(self, dt)
         if self.tracked == nil then
             return

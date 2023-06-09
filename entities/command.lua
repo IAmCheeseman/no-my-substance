@@ -48,6 +48,11 @@ Objects.create_type("CommandExecutor", {
 
             logger.log_message("Changed to level #" .. level)
         end,
+        ["testl"] = function(self)
+            Room.change_to("TestRoom")
+
+            logger.log_message("Changed to test room")
+        end,
         ["gmd"] = function(self)
             godmode = not godmode
 
