@@ -127,7 +127,7 @@ Objects.create_type("Player", {
         self.depth = self.y
 
         if love.keyboard.isDown("r") and self.state == dead then
-            Room.change_to("Level_" .. current_level)
+            Room.reset()
         end
 
         self.health_bar_value = math.clamp(math.lerp(self.health_bar_value, self.health / self.max_health, 10 * dt), 0, 1)
