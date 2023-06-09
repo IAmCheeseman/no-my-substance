@@ -120,7 +120,7 @@ Objects.create_type("Player", {
         self:create_timer("roll_cooldown", nil, 0.75)
         self:create_timer("iframes", nil, 0.2)
 
-        self.hand = Objects.instance_at("Hand", self.x, self.y)
+        self.hand = Objects.instance_at("Gun", self.x, self.y)
     end,
     on_update = function(self, dt)
         self:state(dt)
