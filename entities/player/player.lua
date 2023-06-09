@@ -118,7 +118,7 @@ Objects.create_type("Player", {
 
         self:create_timer("stop_roll", self.stop_roll, 0.3)
         self:create_timer("roll_cooldown", nil, 0.75)
-        self:create_timer("iframes", nil, 0.5)
+        self:create_timer("iframes", nil, 0.2)
 
         self.hand = Objects.instance_at("Hand", self.x, self.y)
     end,
