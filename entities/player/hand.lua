@@ -11,6 +11,8 @@ Objects.create_type("Hand", {
         self.sprite.offset_x = -5
         self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
         self.sprite.center = false
+
+        self:create_timer("cooldown", nil, 0.7)
     end,
     on_update = function(self, dt)
         local mx, my = love.mouse.getPosition()
@@ -32,10 +34,12 @@ Objects.create_type("Hand", {
     end,
 
     on_mouse_press = function(self, _, _, button, _, _)
-        if button == 1 then
+        if button == 1 and self.timers.cooldown.is_over then
             self.sprite:apply_animation(self.swing_animation)
             
             local swipe = Objects.instance_at("HandSwipe", self.x, self.y)
+
+            self.timers.cooldown:start()
         end
     end
 })
