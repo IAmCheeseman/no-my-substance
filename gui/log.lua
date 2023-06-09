@@ -10,6 +10,7 @@ end
 if not Objects.does_type_exist("Logger") then
     Objects.create_type("Logger", {
         persistent = true,
+        depth = 100000,
 
         messages = {},
         
@@ -42,6 +43,7 @@ if not Objects.does_type_exist("Logger") then
                 love.graphics.setColor(1, 1, 1, alpha)
                 love.graphics.printf(v.message, 5, (i - 1) * 15, 160, "left")
             end
+            love.graphics.setColor(1, 1, 1, 1)
         end
     })
 end

@@ -1,3 +1,5 @@
+local gui = require "gui.gui"
+
 local collision = require "entities.collide"
 
 local function dead(self, dt)
@@ -57,6 +59,9 @@ Objects.create_type("Player", {
 
     health = 10,
     max_health = 10,
+
+    health_bar_value = 1,
+    health_bar_recent_value = 1,
 
     speed = 150,
     roll_speed = 300,
@@ -125,6 +130,9 @@ Objects.create_type("Player", {
         if love.keyboard.isDown("r") and self.state == dead then
             Room.change_to("Level_" .. current_level)
         end
+
+        self.health_bar_value = math.clamp(math.lerp(self.health_bar_value, self.health / self.max_health, 10 * dt), 0, 1)
+        self.health_bar_recent_value = math.clamp(math.lerp(self.health_bar_recent_value, self.health / self.max_health, 3 * dt), 0, 1)
     end,
     on_draw = function(self)
         self.shadow.scale_x = self.sprite.scale_x
@@ -140,5 +148,10 @@ Objects.create_type("Player", {
         self.damage_flash_shader:send("is_on", self.timers.iframes.time < 0 and 0 or 1)
         self.sprite:draw(self.x, self.y)
         love.graphics.setShader()
+    end,
+
+    on_gui = function(self)
+        gui.bar(5, 5, 100, 10, { 0, 0, 0 }, { 1, 1, 1 }, self.health_bar_recent_value)
+        gui.bar(5, 5, 100, 10, { 0, 0, 0, 0 }, { 1, 0, 0 }, self.health_bar_value)
     end
 })
