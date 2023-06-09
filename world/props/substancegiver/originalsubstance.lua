@@ -1,3 +1,10 @@
+local function reset(self, dt)
+    Game.camera_scale = math.lerp(Game.camera_scale, 1, 10 * dt)
+    if Game.camera_scale == 0 then
+        Objects.destroy(self)
+    end
+end
+
 local function absorb(self, dt)
     for i = #self.substance_positions, 1, -1 do
         local v = self.substance_positions[i]
@@ -21,6 +28,12 @@ local function absorb(self, dt)
 
     self.ox = math.lerp(self.ox, -(self.x - self.player.x), 20 * dt)
     self.oy = math.lerp(self.oy, -(self.y - self.player.y), 20 * dt)
+
+    Game.camera_scale = math.lerp(Game.camera_scale, 2, 10 * dt)
+
+    if #self.substance_positions == 0 then
+        self.state = reset
+    end
 end
 
 local function default(self, dt) 
