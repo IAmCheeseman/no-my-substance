@@ -1,7 +1,10 @@
+local logger = require "gui.log"
+
 local function reset(self, dt)
     Game.camera_scale = math.lerp(Game.camera_scale, 1, 10 * dt)
-    if Game.camera_scale == 0 then
-        Objects.destroy(self)
+    if Game.camera_scale <= 1.05 and not self.sent_message then
+        logger.log_message("You can now extract substance")
+        self.sent_message = true
     end
 end
 
@@ -76,6 +79,8 @@ Objects.create_type("OriginalSubstance", {
     ox = 0,
     oy = 0,
     merge_dist = 50,
+
+    sent_message = false,
 
     state = default,
 
