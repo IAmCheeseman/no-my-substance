@@ -34,7 +34,7 @@ end
 local function charge(self, dt)
     self.sprite:apply_animation(self.walk_animation)
 
-    local dir_x, dir_y = Vector.direction_between(self.x, self.y, self.target.x, self.target.y)
+    local dir_x, dir_y = Room.get_path("Solids", self.x, self.y, self.player.x, self.player.y)
 
     self.vel_x = math.lerp(self.vel_x, dir_x * self.speed, self.accel * dt)
     self.vel_y = math.lerp(self.vel_y, dir_y * self.speed, self.accel * dt)
