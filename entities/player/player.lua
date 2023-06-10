@@ -89,6 +89,7 @@ Objects.create_type("Player", {
 
         if self.health <= 0 then
             Objects.destroy(self.hand)
+            Objects.destroy(self.gun)
             self.state = dead
         end
 
@@ -123,7 +124,10 @@ Objects.create_type("Player", {
         self:create_timer("roll_cooldown", nil, 0.75)
         self:create_timer("iframes", nil, 0.2)
 
-        self.hand = Objects.instance_at("Gun", self.x, self.y)
+        self.hand = Objects.instance_at("Hand", self.x, self.y)
+        self.gun = Objects.instance_at("Gun", self.x, self.y)
+
+        self.hand.visible = false
     
         if current_level == 1 then
             voiceline.play_line(self, redo_spray_tan, 0, "Chris", "Man... I gotta redo my spray tan.")

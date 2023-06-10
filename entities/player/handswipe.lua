@@ -26,7 +26,7 @@ Objects.create_type("HandSwipe", {
             local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
             local dot = Vector.dot(dir_x, dir_y, de_x, de_y)
             if dot > 0 and dist < 40 then
-                other:take_damage(5, dir_x, dir_y)
+                other:take_damage(2, dir_x, dir_y)
 
                 self.hit[other] = 0
             end

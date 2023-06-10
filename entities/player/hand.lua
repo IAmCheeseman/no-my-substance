@@ -34,12 +34,15 @@ Objects.create_type("Hand", {
     end,
 
     on_mouse_press = function(self, _, _, button, _, _)
-        if button == 1 and self.timers.cooldown.is_over then
+        if button == 2 and self.timers.cooldown.is_over then
             self.sprite:apply_animation(self.swing_animation)
             
             local swipe = Objects.instance_at("HandSwipe", self.x, self.y)
 
             self.timers.cooldown:start()
+
+            self.visible = true
+            Objects.grab("Gun").visible = false
         end
     end
 })

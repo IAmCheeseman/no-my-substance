@@ -33,6 +33,9 @@ Objects.create_type("Gun", {
             bullet.speed = 600
 
             self.timers.cooldown:start()
+
+            self.visible = true
+            Objects.grab("Hand").visible = false
         end
     end
 })
