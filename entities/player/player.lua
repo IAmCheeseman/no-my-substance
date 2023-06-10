@@ -163,5 +163,9 @@ Objects.create_type("Player", {
     on_gui = function(self)
         gui.bar(5, 5, 100, 10, { 0, 0, 0 }, { 1, 1, 1 }, self.health_bar_recent_value)
         gui.bar(5, 5, 100, 10, { 0, 0, 0, 0 }, { 1, 0, 0 }, self.health_bar_value)
+        
+        love.graphics.setFont(gui.font)
+        love.graphics.setColor(0.5, 0, 0.1)
+        love.graphics.print("HP: " .. self.health .. "/" .. self.max_health, 7, 5)
     end
 })
