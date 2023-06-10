@@ -37,6 +37,10 @@ Objects.create_type("Enemy", {
         self.vel_y = self.vel_y + kb_y * self.kb_strength
 
         self.timers.iframes:start()
+
+        if self.on_hurt then
+            self:on_hurt()
+        end
     end,
 
     on_create = function(self)

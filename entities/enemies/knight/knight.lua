@@ -108,5 +108,11 @@ Objects.create_type_from("Knight", "Enemy", {
         if love.math.random() < 0.2 then
             voiceline.play_line(death, 0, "Knight", "NO! MY SUBSTANCE!")
         end
+    end,
+
+    on_hurt = function(self)
+        if love.math.random() < 0.5 then
+            hurt_sounds[love.math.random(1, #hurt_sounds)]:play()
+        end
     end
 })
