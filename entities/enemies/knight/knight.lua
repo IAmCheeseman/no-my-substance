@@ -1,4 +1,13 @@
+local voiceline = require "entities.voicelineplayer"
 local collision = require "entities.collide"
+
+local hurt_sounds = {
+    love.audio.newSource("entities/enemies/hurt1.mp3", "stream"),
+    love.audio.newSource("entities/enemies/hurt2.mp3", "stream"),
+    love.audio.newSource("entities/enemies/hurt3.mp3", "stream"),
+}
+
+local death = love.audio.newSource("entities/enemies/nomysubstance.mp3", "stream")
 
 local function flee(self, dt)
     self.sprite:apply_animation(self.walk_animation)
@@ -95,5 +104,9 @@ Objects.create_type_from("Knight", "Enemy", {
 
     on_death = function(self)
         Objects.destroy(self.sword)
+        
+        if love.math.random() < 0.2 then
+            voiceline.play_line(death, 0, "Knight", "NO! MY SUBSTANCE!")
+        end
     end
 })

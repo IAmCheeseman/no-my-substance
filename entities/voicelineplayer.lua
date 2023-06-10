@@ -6,7 +6,7 @@ local current = {}
 
 function module.play_line(audio, priority, speaker, subtitle)
     if current[speaker] ~= nil then
-        if current[speaker].priority < priority then
+        if current[speaker].priority <= priority then
             return false
         end
 
