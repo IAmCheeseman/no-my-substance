@@ -3,6 +3,9 @@ local collision = require "entities.collide"
 Objects.create_type("Bullet", {
     sprite = Sprite.new("entities/player/bullet.png", 5, 10),
 
+    hit = {},
+    piercing = 2,
+
     dir_x = 0,
     dir_y = 0,
     speed = 300,
@@ -17,14 +20,29 @@ Objects.create_type("Bullet", {
             Objects.destroy(self)
         end
 
+        local count = 0
+
         Objects.with("Enemy", function(other)
+            count = 0
+            for _, _ in pairs(self.hit) do
+                count = count + 1
+            end
+
+            if self.hit[other] ~= nil or count >= self.piercing then
+                return
+            end
+
             local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
             if dist < 12 then
                 other:take_damage(7, self.dir_x, self.dir_y)
 
-                Objects.destroy(self)
+                self.hit[other] = 0
             end
         end)
+
+        if count >= self.piercing then
+            Objects.destroy(self)
+        end
 
         local speed = self.speed * (1 - self.sprite.frame / self.sprite.frame_count)
 
