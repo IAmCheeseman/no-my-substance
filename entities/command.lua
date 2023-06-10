@@ -65,6 +65,13 @@ Objects.create_type("CommandExecutor", {
 
             logger.log_message("Set health to " .. health .. "/" .. player.max_health)
         end,
+        ["/dmg%d"] = function(self)
+            local damage = string.gsub(self.current_command, "[^%d]", "")
+            local player = Objects.grab("Player")
+            player:take_damage(damage, 0, 0)
+
+            logger.log_message("Dealt " .. damage .. " damage to player")
+        end,
         ["/rhp"] = function(self)
             reset_health()
         end,
