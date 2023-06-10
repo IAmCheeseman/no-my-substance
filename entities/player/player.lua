@@ -5,6 +5,9 @@ local substance = require "substance"
 
 local redo_spray_tan = love.audio.newSource("entities/player/voicelines/redospraytan.mp3", "stream")
 
+local normal_sprite = Sprite.new("entities/player/player.png", 9, 10)
+local substance_sprite = Sprite.new("entities/player/playersubstancized.png", 9, 10)
+
 local function dead(self, dt)
     self.sprite:apply_animation(self.dead_animation)
 
@@ -37,8 +40,13 @@ local function default(self, dt)
     local nvel_x, nvel_y = Vector.normalized(self.vel_x, self.vel_y)
     local accel_delta = Vector.dot(nvel_x, nvel_y, input_x, input_y) < 0.1 and self.frict or self.accel
 
-    self.vel_x = math.lerp(self.vel_x, input_x * self.speed, accel_delta * dt)
-    self.vel_y = math.lerp(self.vel_y, input_y * self.speed, accel_delta * dt)
+    local speed = self.speed
+    if substance.active then
+        speed = self.substance_speed
+    end
+
+    self.vel_x = math.lerp(self.vel_x, input_x * speed, accel_delta * dt)
+    self.vel_y = math.lerp(self.vel_y, input_y * speed, accel_delta * dt)
 
     collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
 
@@ -52,7 +60,7 @@ local function default(self, dt)
 end
 
 Objects.create_type("Player", {
-    sprite = Sprite.new("entities/player/player.png", 9, 10),
+    sprite = normal_sprite,
     idle_animation = Sprite.new_animation(1, 3, 10),
     walking_animation = Sprite.new_animation(4, 6, 15),
     rolling_animation = Sprite.new_animation(7, 7, 0),
@@ -67,6 +75,8 @@ Objects.create_type("Player", {
     health_bar_recent_value = 1,
 
     speed = 150,
+    substance_speed = 200,
+
     roll_speed = 300,
     accel = 10,
     frict = 12,
@@ -126,9 +136,11 @@ Objects.create_type("Player", {
         local camera = Objects.grab("Camera")
         camera.tracked = self
 
-        self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
+        for _, sprite in ipairs{normal_sprite, substance_sprite} do
+            sprite.offset_y = math.floor(sprite.texture:getHeight() / 2)
+        end
 
-        self.shadow = self.sprite:copy()
+        self.shadow = normal_sprite:copy()
 
         self:create_timer("stop_roll", self.stop_roll, 0.3)
         self:create_timer("roll_cooldown", nil, 0.75)
@@ -162,6 +174,9 @@ Objects.create_type("Player", {
         substance.active = not self.timers.substance.is_over
         if substance.active then
             substance.amount = (self.timers.substance.time / substance.time) * substance.max
+            self.sprite = substance_sprite
+        else
+            self.sprite = normal_sprite
         end
     end,
     on_draw = function(self)
