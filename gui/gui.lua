@@ -9,9 +9,9 @@ function module.bar(sx, sy, ex, ey, bgc, fgc, v)
 
     love.graphics.setColor(fgc[1], fgc[2], fgc[3], fgc[4] or 1)
 
-    local vx = ((ex - sx) * v) + sx
+    local vx = ((ex - sx) * v) + (sx - 2)
 
-    love.graphics.rectangle("fill", sx, sy, vx, ey)
+    love.graphics.rectangle("fill", sx + 1, sy + 1, vx, ey - 2)
 end
 
 return module

@@ -1,5 +1,8 @@
 local gui = require "gui.gui"
+local voiceline = require "entities.voicelineplayer"
 local collision = require "entities.collide"
+
+local redo_spray_tan = love.audio.newSource("entities/player/voicelines/redospraytan.mp3", "stream")
 
 local function dead(self, dt)
     self.sprite:apply_animation(self.dead_animation)
@@ -121,6 +124,10 @@ Objects.create_type("Player", {
         self:create_timer("iframes", nil, 0.2)
 
         self.hand = Objects.instance_at("Gun", self.x, self.y)
+    
+        if current_level == 1 then
+            voiceline.play_line(self, redo_spray_tan, 0, "Chris", "Man... I gotta redo my spray tan.")
+        end
     end,
     on_update = function(self, dt)
         self:state(dt)

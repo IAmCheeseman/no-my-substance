@@ -14,6 +14,7 @@ function love.load()
     Objects.instance("Pauser")
     Objects.instance("Camera")
     Objects.instance("CommandExecutor")
+    Objects.instance("VoiceLinePlayer")
 
     Room.initialize("", "levels.ldtk", get_current_level())
 end
