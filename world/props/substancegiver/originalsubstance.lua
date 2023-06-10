@@ -50,7 +50,7 @@ local function default(self, dt)
         target_ox = dir_x * (dist / self.merge_dist) * (dist * 0.6)
         target_oy = dir_y * (dist / self.merge_dist) * (dist * 0.6)
     end
-    if dist < 8 then
+    if dist < 16 then
         self.state = absorb
     end
 
