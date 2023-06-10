@@ -41,7 +41,7 @@ Objects.create_type("CommandExecutor", {
     current_command = "",
 
     commands = {
-        ["chlvl%d"] = function(self)
+        ["clev%d"] = function(self)
             local level = string.gsub(self.current_command, "[^%d]", "")
             current_level = tonumber(level)
             Room.change_to(get_current_level())
