@@ -1,6 +1,7 @@
 local gui = require "gui.gui"
 local voiceline = require "entities.voicelineplayer"
 local collision = require "entities.collide"
+local substance = require "substance"
 
 local redo_spray_tan = love.audio.newSource("entities/player/voicelines/redospraytan.mp3", "stream")
 
@@ -80,12 +81,21 @@ Objects.create_type("Player", {
 
     state = default,
 
+    start_substance = function(self)
+        self.timers.substance:start()
+    end,
+
     take_damage = function(self, damage, kb_x, kb_y)
         if not self.timers.iframes.is_over or self.state == roll or godmode then
             return
         end
 
-        self.health = self.health - damage
+        local total_damage = damage
+        if substance.active then
+            total_damage = total_damage * 2
+        end
+
+        self.health = self.health - total_damage
 
         if self.health <= 0 then
             Objects.destroy(self.hand)
@@ -123,6 +133,7 @@ Objects.create_type("Player", {
         self:create_timer("stop_roll", self.stop_roll, 0.3)
         self:create_timer("roll_cooldown", nil, 0.75)
         self:create_timer("iframes", nil, 0.2)
+        self:create_timer("substance", nil, substance.time)
 
         self.hand = Objects.instance_at("Hand", self.x, self.y)
         self.gun = Objects.instance_at("Gun", self.x, self.y)
@@ -141,8 +152,17 @@ Objects.create_type("Player", {
             Room.reset()
         end
 
+        if love.keyboard.isDown("e") and substance.unlocked then
+            self.timers.substance:start()
+        end
+
         self.health_bar_value = math.clamp(math.lerp(self.health_bar_value, self.health / self.max_health, 10 * dt), 0, 1)
         self.health_bar_recent_value = math.clamp(math.lerp(self.health_bar_recent_value, self.health / self.max_health, 3 * dt), 0, 1)
+
+        substance.active = not self.timers.substance.is_over
+        if substance.active then
+            substance.amount = (self.timers.substance.time / substance.time) * substance.max
+        end
     end,
     on_draw = function(self)
         self.shadow.scale_x = self.sprite.scale_x
@@ -167,5 +187,9 @@ Objects.create_type("Player", {
         love.graphics.setFont(gui.font)
         love.graphics.setColor(0, 0, 0, 0.5)
         love.graphics.print("HP: " .. self.health .. "/" .. self.max_health, 7, 5)
+
+        if substance.unlocked or substance.active then
+            gui.bar(5, 14, 50, 5, { 0.06, 0.07, 0.12 }, { 0, 1, 1 }, substance.amount / substance.max)
+        end
     end
 })

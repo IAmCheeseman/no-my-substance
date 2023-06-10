@@ -1,17 +1,4 @@
-local substance = require "substance"
-local logger = require "gui.log"
-
-local function reset(self, dt)
-    Game.camera_scale = math.lerp(Game.camera_scale, 1, 10 * dt)
-    if Game.camera_scale <= 1.05 and not self.sent_message then
-        logger.log_message("You can now extract substance")
-        self.sent_message = true
-
-        substance.unlocked = true
-    end
-end
-
-local function absorb(self, dt)
+local function dissapate(self, dt)
     for i = #self.substance_positions, 1, -1 do
         local v = self.substance_positions[i]
 
@@ -32,40 +19,18 @@ local function absorb(self, dt)
         end
     end
 
-    self.ox = math.lerp(self.ox, -(self.x - self.player.x), 20 * dt)
-    self.oy = math.lerp(self.oy, -(self.y - self.player.y), 20 * dt)
-
-    Game.camera_scale = math.lerp(Game.camera_scale, 1.25, 10 * dt)
-
     if #self.substance_positions == 0 then
-        self.state = reset
-        Objects.grab("SubstanceGiver").sprite.frame = 2
+        Objects.destroy(self)
     end
 end
 
-local function default(self, dt) 
-    local dist = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
-        
-    local target_ox = 0
-    local target_oy = 0
-    if dist < self.merge_dist then
-        local dir_x, dir_y = Vector.direction_between(self.x, self.y, self.player.x, self.player.y)
-        target_ox = dir_x * (dist / self.merge_dist) * (dist * 0.6)
-        target_oy = dir_y * (dist / self.merge_dist) * (dist * 0.6)
-    end
-    if dist < 16 then
-        self.state = absorb
-    end
-
-    self.ox = math.lerp(self.ox, target_ox, 5 * dt)
-    self.oy = math.lerp(self.oy, target_oy, 5 * dt)
-
+local function default(self, dt)
     for _, v in ipairs(self.substance_positions) do
         local vx, vy = Vector.normalized(v.dx, v.dy)
         v.x = v.x + vx * v.speed * dt
         v.y = v.y + vy * v.speed * dt
 
-        if Vector.length(v.x, v.y) > 10 then
+        if Vector.length(v.x, v.y) > self.circle_radius then
             v.dx = -vx
             v.dy = -vy
 
@@ -73,16 +38,30 @@ local function default(self, dt)
             v.y = v.y + v.dy * 2
         end
     end
+
+    local dir_x, dir_y = Vector.direction_between(self.x, self.y, self.player.x, self.player.y)
+    local dist = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
+
+    if dist < 10 then
+        self.state = dissapate
+    end
+
+    self.x = self.x + dir_x * self.speed * dt
+    self.y = self.y + dir_y * self.speed * dt
+
+    self.speed = self.speed + self.accel * dt
 end
 
-Objects.create_type("OriginalSubstance", {
+
+Objects.create_type("Substance", {
     substance_sprite = Sprite.new("entities/substance/substance.png", 1, 0),
 
     substance_positions = {},
 
-    ox = 0,
-    oy = 0,
-    merge_dist = 50,
+    speed = 0,
+    accel = 100,
+
+    circle_radius = 5,
 
     sent_message = false,
 
@@ -95,10 +74,10 @@ Objects.create_type("OriginalSubstance", {
 
         self.player = Objects.grab("Player")
 
-        for i = 1, 30 do
+        for i = 1, self.circle_radius * 2 do
             local x, y = Vector.rotated(1, 0, love.math.random(math.pi * 2))
-            x = x * love.math.random(10)
-            y = y * love.math.random(10)
+            x = x * love.math.random(self.circle_radius)
+            y = y * love.math.random(self.circle_radius)
             table.insert(self.substance_positions, {
                 x = x, y = y,
                 dx = x, dy = y,
@@ -110,6 +89,7 @@ Objects.create_type("OriginalSubstance", {
 
     on_update = function(self, dt)
         self:state(dt)
+
         self.depth = self.y + 16
     end,
 
@@ -117,7 +97,7 @@ Objects.create_type("OriginalSubstance", {
         love.graphics.setBlendMode("add")
         for _, v in ipairs(self.substance_positions) do
             self.substance_sprite.rotation = v.r
-            self.substance_sprite:draw(self.x + v.x + self.ox, self.y + v.y + self.oy)
+            self.substance_sprite:draw(self.x + v.x, self.y + v.y)
         end
         love.graphics.setBlendMode("alpha")
     end

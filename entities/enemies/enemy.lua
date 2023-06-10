@@ -1,3 +1,4 @@
+local substance = require "substance"
 
 Objects.create_type("Enemy", {
     sprite = nil,
@@ -9,6 +10,8 @@ Objects.create_type("Enemy", {
     damage = 1,
     health = 10,
     max_health = 10,
+
+    substance_amount = substance.max / 15,
 
     push_speed = 300,
     kb_strength = 300,
@@ -28,6 +31,11 @@ Objects.create_type("Enemy", {
 
             Objects.destroy(self)
 
+            if substance.unlocked and not substance.active then
+                substance.give_substance(self.substance_amount)
+                local new_substace = Objects.instance_at("Substance", self.x, self.y)
+            end
+            
             if self.on_death then
                 self:on_death()
             end

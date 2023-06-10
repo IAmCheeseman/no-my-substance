@@ -1,3 +1,4 @@
+local substace = require "substance"
 local logger = require "gui.log"
 
 godmode = false
@@ -96,6 +97,12 @@ Objects.create_type("CommandExecutor", {
 
             logger.log_message("Invisibility is " .. (player_invisible and "on" or "off"))
         end,
+        ["/sub"] = function(self)
+            local player = Objects.grab("Player")
+            player:start_substance()
+
+            logger.log_message("Enabled substance")
+        end
     },
 
     on_key_press = function(self, key, _, _)
