@@ -1,3 +1,5 @@
+local shoot_sfx = love.sound.newSoundData("entities/player/shoot.mp3")
+
 Objects.create_type("Gun", {
     sprite = Sprite.new("entities/player/gun.png", 1, 0),
     target = nil,
@@ -36,6 +38,9 @@ Objects.create_type("Gun", {
 
             self.visible = true
             Objects.grab("Hand").visible = false
+
+            local shoot = love.audio.newSource(shoot_sfx)
+            shoot:play()
         end
     end
 })

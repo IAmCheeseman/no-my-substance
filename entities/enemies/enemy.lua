@@ -27,6 +27,10 @@ Objects.create_type("Enemy", {
             corpse.sprite = self.corpse_sprite
 
             Objects.destroy(self)
+
+            if self.on_death then
+                self:on_death()
+            end
         end
 
         self.vel_x = self.vel_x + kb_x * self.kb_strength
