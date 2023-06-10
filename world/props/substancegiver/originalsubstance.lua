@@ -36,6 +36,7 @@ local function absorb(self, dt)
 
     if #self.substance_positions == 0 then
         self.state = reset
+        Objects.grab("SubstanceGiver").sprite.frame = 2
     end
 end
 
