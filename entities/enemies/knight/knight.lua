@@ -7,7 +7,7 @@ local hurt_sounds = {
     love.audio.newSource("entities/enemies/hurt3.mp3", "stream"),
 }
 
-local death = love.audio.newSource("entities/enemies/nomysubstance.mp3", "stream")
+local death = love.audio.newSource("entities/enemies/nooo.mp3", "stream")
 
 local function flee(self, dt)
     self.sprite:apply_animation(self.walk_animation)
@@ -106,7 +106,7 @@ Objects.create_type_from("Knight", "Enemy", {
         Objects.destroy(self.sword)
         
         if love.math.random() < 0.2 then
-            voiceline.play_line(death, 0, "Knight", "NO! MY SUBSTANCE!")
+            voiceline.play_line(death, 0, "Knight", "NOOO!")
         end
     end,
 
