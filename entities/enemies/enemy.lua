@@ -6,7 +6,7 @@ Objects.create_type("Enemy", {
 
     damage_flash_shader = love.graphics.newShader("entities/damageflash.fs"),
 
-    damage = 2.5,
+    damage = 1,
     health = 10,
     max_health = 10,
 
