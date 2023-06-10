@@ -1,3 +1,4 @@
+local woosh = love.audio.newSource("world/props/levelportal/woosh.mp3", "stream")
 
 Objects.create_type("LevelPortal", {
     sprite = Sprite.new("world/props/levelportal/portal.png", 1, 0),
@@ -26,6 +27,8 @@ Objects.create_type("LevelPortal", {
                 current_level = 1
             end
             Room.change_to(get_current_level())
+
+            woosh:play()
         end
 
         self.vortex_upper.rotation = self.vortex_upper.rotation + dt * 3
