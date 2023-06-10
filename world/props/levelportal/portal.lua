@@ -22,6 +22,9 @@ Objects.create_type("LevelPortal", {
 
         if Vector.distance_between(self.player.x, self.player.y, self.x, self.y) < 8 and self.open then
             current_level = current_level + 1
+            if not Room.is_room_in_range(current_level) then
+                current_level = 1
+            end
             Room.change_to(get_current_level())
         end
 
