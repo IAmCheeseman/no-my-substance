@@ -39,11 +39,17 @@ if not Objects.does_type_exist("Logger") then
         on_gui = function(self)
             love.graphics.setFont(gui.font)
             for i, v in ipairs(self.messages) do
-                local alpha = v.time_left / 3
-                love.graphics.setColor(1, 1, 1, alpha)
-                love.graphics.printf(v.message, 5, (i - 1) * 8, 320, "center")
+                local x, y = 0, (i - 1) * 8
+
+                local width, height = gui.font:getWidth(v.message) + 5, gui.font:getHeight(v.message)
+                local bgx, bgy = 320 / 2 - width / 2, y
+
+                love.graphics.setColor(0, 0, 0, 1)
+                love.graphics.rectangle("fill", bgx, bgy, width, height)
+
+                love.graphics.setColor(1, 1, 1, 1)
+                love.graphics.printf(v.message, x, y, 320, "center")
             end
-            love.graphics.setColor(1, 1, 1, 1)
         end
     })
 end
