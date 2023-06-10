@@ -41,7 +41,7 @@ if not Objects.does_type_exist("Logger") then
             for i, v in ipairs(self.messages) do
                 local alpha = v.time_left / 3
                 love.graphics.setColor(1, 1, 1, alpha)
-                love.graphics.printf(v.message, 5, (i - 1) * 8, 160, "left")
+                love.graphics.printf(v.message, 5, (i - 1) * 8, 320, "center")
             end
             love.graphics.setColor(1, 1, 1, 1)
         end
