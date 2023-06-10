@@ -4,8 +4,8 @@ local module = {}
 
 local current = {}
 
-function module.play_line(from, audio, priority, speaker, subtitle)
-    if current[from.type] ~= nil then
+function module.play_line(audio, priority, speaker, subtitle)
+    if current[speaker] ~= nil then
         return false
     end
 
@@ -17,7 +17,7 @@ function module.play_line(from, audio, priority, speaker, subtitle)
         subtitle = ""
     end
 
-    current[from.type] = {
+    current[speaker] = {
         audio = audio,
         subtitle = subtitle,
         priority = priority,
@@ -43,21 +43,22 @@ if not Objects.does_type_exist("VoiceLinePlayer") then
 
         on_gui = function(self)
             local line = nil
+            local i = 1
             for _, v in pairs(current) do
-                if line == nil or line.priority > v.priority and line.subtitled then
-                    line = v
+                local x, y = 0, 170 - ((i - 1) * 8)
+
+                if v.subtitled then
+                    love.graphics.setFont(gui.font)
+                    local width, height = gui.font:getWidth(v.subtitle) + 5, gui.font:getHeight(v.subtitle)
+                    local bgx, bgy = 320 / 2 - width / 2, y
+
+                    love.graphics.setColor(0, 0, 0, 1)
+                    love.graphics.rectangle("fill", bgx, bgy, width, height)
+                    love.graphics.setColor(1, 1, 1, 1)
+                    love.graphics.printf(v.subtitle, x, y, 320, "center")
                 end
-            end
 
-            if line ~= nil then
-                love.graphics.setFont(gui.font)
-                local width, height = gui.font:getWidth(line.subtitle) + 5, gui.font:getHeight(line.subtitle)
-                local x, y = 320 / 2 - width / 2, 170
-
-                love.graphics.setColor(0, 0, 0, 1)
-                love.graphics.rectangle("fill", x, y, width, height)
-                love.graphics.setColor(1, 1, 1, 1)
-                love.graphics.printf(line.subtitle, 0, 170, 320, "center")
+                i = i + 1
             end
         end
     })
