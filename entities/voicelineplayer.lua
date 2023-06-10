@@ -51,7 +51,13 @@ if not Objects.does_type_exist("VoiceLinePlayer") then
 
             if line ~= nil then
                 love.graphics.setFont(gui.font)
-                love.graphics.printf(line.subtitle, 5, 170, 320, "center")
+                local width, height = gui.font:getWidth(line.subtitle) + 5, gui.font:getHeight(line.subtitle)
+                local x, y = 320 / 2 - width / 2, 170
+
+                love.graphics.setColor(0, 0, 0, 1)
+                love.graphics.rectangle("fill", x, y, width, height)
+                love.graphics.setColor(1, 1, 1, 1)
+                love.graphics.printf(line.subtitle, 0, 170, 320, "center")
             end
         end
     })
