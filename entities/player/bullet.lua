@@ -4,7 +4,7 @@ Objects.create_type("Bullet", {
     sprite = Sprite.new("entities/player/bullet.png", 5, 10),
 
     hit = {},
-    piercing = 2,
+    piercing = 3,
 
     dir_x = 0,
     dir_y = 0,
