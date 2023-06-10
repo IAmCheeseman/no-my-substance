@@ -12,6 +12,10 @@ Objects.create_type("Bullet", {
 
     on_create = function(self)
         self.sprite.rotation = Vector.angle(self.dir_x, self.dir_y)
+        self.sprite.centered = false
+
+        self.sprite.offset_x = 6
+        self.sprite.offset_y = self.sprite.texture:getHeight() / 2
     end,
 
     on_update = function(self, dt)

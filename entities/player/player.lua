@@ -131,7 +131,6 @@ Objects.create_type("Player", {
     
         if current_level == 1 then
             voiceline.play_line(redo_spray_tan, 0, "Chris", "Man... I gotta redo my spray tan.")
-            voiceline.play_line(redo_spray_tan, 0, "Chris' Mother", "Man... I gotta redo my spray tan. 2")
         end
     end,
     on_update = function(self, dt)
