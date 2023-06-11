@@ -22,6 +22,8 @@ Objects.create_type("Gun", {
         self.y = self.target.y - self.target.sprite.texture:getHeight() / 2
 
         self.depth = self.target.depth + 1
+
+        self.camera = Objects.grab("Camera")
     end,
     on_draw = function(self)
         self.sprite:draw(self.x, self.y)
@@ -42,6 +44,8 @@ Objects.create_type("Gun", {
 
             local shoot = love.audio.newSource(shoot_sfx)
             shoot:play()
+
+            self.camera:shake(1, 6, 6, 1, 0.1, false, -dir_x, -dir_y)
         end
     end
 })
