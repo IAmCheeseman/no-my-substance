@@ -107,6 +107,14 @@ Objects.create_type("CommandExecutor", {
             player:start_substance()
 
             logger.log_message("Enabled substance")
+        end,
+        ["/c%w"] = function(self)
+            local type_name = string.gsub(self.current_command, "/c", "")
+            if Objects.does_type_exist(type_name) then
+                logger.log_message("There are " .. Objects.count_type(type_name) .. " instance(s) of " .. type_name)
+                return
+            end
+            logger.log_message("Type ''" .. type_name .. "'' does not exist.")
         end
     },
 
@@ -122,7 +130,11 @@ Objects.create_type("CommandExecutor", {
             return
         end
 
-        self.current_command = self.current_command .. key
+        if string.find(self.current_command, ".*lshift") then
+            self.current_command = string.gsub(self.current_command, "lshift", "") .. string.upper(key)
+        else
+            self.current_command = self.current_command .. key
+        end
 
         if not is_key_valid(self.current_command, key, self.commands) then
             self.current_command = ""
