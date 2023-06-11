@@ -12,7 +12,7 @@ Objects.create_type("KnightSword", {
         local dist = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
         local dot = Vector.dot(dir_x, dir_y, de_x, de_y)
         if dot > 0 and dist < 32 then
-            self.player:take_damage(2.5, dir_x, dir_y)
+            self.player:take_damage(4, dir_x, dir_y)
         end
     end,
 
