@@ -175,15 +175,6 @@ Objects.create_type("Player", {
         self:state(dt)
         self.depth = self.y
 
-        if love.keyboard.isDown("r") and self.state == dead then
-            Room.reset()
-        end
-
-        if love.keyboard.isDown("e") and substance.unlocked and substance.amount == substance.max then
-            self.health = self.max_health
-            self.timers.substance:start()
-        end
-
         self.health_bar_value = math.clamp(math.lerp(self.health_bar_value, self.health / self.max_health, 10 * dt), 0, 1)
         self.health_bar_recent_value = math.clamp(math.lerp(self.health_bar_recent_value, self.health / self.max_health, 3 * dt), 0, 1)
 
@@ -209,6 +200,25 @@ Objects.create_type("Player", {
         self.damage_flash_shader:send("is_on", self.timers.iframes.time < 0 and 0 or 1)
         self.sprite:draw(self.x, self.y)
         love.graphics.setShader()
+    end,
+    
+    on_key_press = function(self, key, _, _)
+        if key == "r" and self.state == dead then
+            Room.reset()
+        end
+
+        if key == "e" and substance.unlocked and substance.amount == substance.max then
+            self.health = self.max_health
+            self.timers.substance:start()
+        end
+
+        if key == "m" then
+            if love.audio.getVolume() == 0 then
+                love.audio.setVolume(1)
+            else
+                love.audio.setVolume(0)
+            end
+        end
     end,
 
     on_gui = function(self)
