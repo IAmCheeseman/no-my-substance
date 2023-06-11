@@ -55,6 +55,7 @@ local function default(self, dt)
     end
     if dist < 16 then
         self.state = absorb
+        self.camera:shake(10, 6, 12, 0.05, 2, true)
     end
 
     self.ox = math.lerp(self.ox, target_ox, 5 * dt)
@@ -94,6 +95,7 @@ Objects.create_type("OriginalSubstance", {
         self.substance_sprite.offset_y = self.substance_sprite.texture:getHeight() / 2
 
         self.player = Objects.grab("Player")
+        self.camera = Objects.grab("Camera")
 
         for i = 1, 30 do
             local x, y = Vector.rotated(1, 0, love.math.random(math.pi * 2))
