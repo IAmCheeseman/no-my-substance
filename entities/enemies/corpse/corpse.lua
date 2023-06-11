@@ -11,6 +11,11 @@ Objects.create_type("Corpse", {
         self.shadow = self.sprite:copy()
     end,
     on_update = function(self, dt)
+        if collision.would_collide(self, "Solids", self.vel_x * dt, self.vel_y * dt) then
+            self.vel_x = -self.vel_x
+            self.vel_y = -self.vel_y
+        end
+
         self.vel_x = math.lerp(self.vel_x, 0, self.frict * dt)
         self.vel_y = math.lerp(self.vel_y, 0, self.frict * dt)
 
