@@ -97,6 +97,11 @@ Objects.create_type("CommandExecutor", {
 
             logger.log_message("Invisibility is " .. (player_invisible and "on" or "off"))
         end,
+        ["/usub"] = function(self)
+            substace.unlocked = not substace.unlocked
+
+            logger.log_message(substace.unlocked and "Unlocked substance" or "Locked substance")
+        end,
         ["/sub"] = function(self)
             local player = Objects.grab("Player")
             player:start_substance()

@@ -16,7 +16,7 @@ function module.bar(sx, sy, ex, ey, bgc, fgc, v)
 end
 
 function module.outlined_text(what, x, y, limit, align, outlinec, textc, size)
-    size = size or 3
+    size = size or 1
 
     love.graphics.setColor(outlinec[1], outlinec[2], outlinec[3], outlinec[4] or 1)
 
