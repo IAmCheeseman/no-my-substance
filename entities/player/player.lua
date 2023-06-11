@@ -20,6 +20,11 @@ local level_start_lines = {
 local function dead(self, dt)
     self.sprite:apply_animation(self.dead_animation)
 
+    if collision.would_collide(self, "Solids", self.vel_x * dt, self.vel_y * dt) then
+        self.vel_x = -self.vel_x
+        self.vel_y = -self.vel_y
+    end
+
     self.vel_x = math.lerp(self.vel_x, 0, 3 * dt)
     self.vel_y = math.lerp(self.vel_y, 0, 3 * dt)
 
