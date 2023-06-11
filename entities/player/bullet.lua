@@ -14,8 +14,13 @@ Objects.create_type("Bullet", {
         self.sprite.rotation = Vector.angle(self.dir_x, self.dir_y)
         self.sprite.centered = false
 
-        self.sprite.offset_x = 6
-        self.sprite.offset_y = self.sprite.texture:getHeight() / 2
+        if self.dir_x < 0 then
+            self.sprite.offset_y = self.sprite.texture:getHeight() * 1.5
+            self.sprite.offset_x = (self.sprite.texture:getWidth() / self.sprite.frame_count) / 2
+        else
+            self.sprite.offset_y = -self.sprite.texture:getHeight() / 2
+            self.sprite.offset_x = -(self.sprite.texture:getWidth() / self.sprite.frame_count) / 2
+        end
     end,
 
     on_update = function(self, dt)

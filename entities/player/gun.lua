@@ -8,7 +8,7 @@ Objects.create_type("Gun", {
         self.target = Objects.grab("Player")
         
         self.sprite.offset_x = -5
-        self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
+        -- self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
         self.sprite.center = false
 
         self:create_timer("cooldown", nil, 0.2)
@@ -29,9 +29,10 @@ Objects.create_type("Gun", {
 
     on_mouse_press = function(self, _, _, button, _, _)
         if button == 1 and self.timers.cooldown.is_over then            
-            local bullet = Objects.instance_at("Bullet", self.x, self.y)
             local mx, my = love.mouse.getPosition()
-            bullet.dir_x, bullet.dir_y = Vector.rotated(1, 0, Vector.angle_between(self.x, self.y, mx, my))
+            local dir_x, dir_y = Vector.rotated(1, 0, Vector.angle_between(self.x, self.y, mx, my))
+            local bullet = Objects.instance_at("Bullet", self.x + dir_x * 5, self.y + dir_y * 5)
+            bullet.dir_x, bullet.dir_y = dir_x, dir_y
             bullet.speed = 600
 
             self.timers.cooldown:start()
