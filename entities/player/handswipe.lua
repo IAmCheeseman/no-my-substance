@@ -1,5 +1,7 @@
 local substance = require "substance"
 
+local swing = love.audio.newSource("entities/player/punchswing.mp3", "stream")
+local hit = love.audio.newSource("entities/player/punchhit.mp3", "stream")
 
 Objects.create_type("HandSwipe", {
     sprite = Sprite.new("entities/player/handswipe.png", 6, 20),
@@ -18,6 +20,8 @@ Objects.create_type("HandSwipe", {
 
         local mx, my = love.mouse.getPosition()
         self.sprite.rotation = Vector.angle_between(self.x, self.y, mx, my)
+
+        swing:play()
     end,
 
     on_update = function(self, dt)
@@ -40,6 +44,8 @@ Objects.create_type("HandSwipe", {
                 other:take_damage(damage, dir_x * self.kb_amount, dir_y * self.kb_amount)
 
                 self.hit[other] = 0
+
+                hit:play()
             end
         end)
 
