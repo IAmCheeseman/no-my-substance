@@ -1,3 +1,4 @@
+local blood = require "world.blood.blood"
 local substance = require "substance"
 
 Objects.create_type("Enemy", {
@@ -42,7 +43,9 @@ Objects.create_type("Enemy", {
                 self:on_death()
             end
         end
-
+        
+        blood.new(self.x, self.y, Vector.angle(kb_x, kb_y) + math.pi)
+        
         self.vel_x = self.vel_x + kb_x * self.kb_strength
         self.vel_y = self.vel_y + kb_y * self.kb_strength
 
