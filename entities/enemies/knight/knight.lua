@@ -1,3 +1,4 @@
+local substance = require "substance"
 local voiceline = require "entities.voicelineplayer"
 local collision = require "entities.collide"
 
@@ -8,6 +9,7 @@ local hurt_sounds = {
 }
 
 local death = love.audio.newSource("entities/enemies/nooo.mp3", "stream")
+local substance_death = love.audio.newSource("entities/enemies/nomysubstance.mp3", "stream")
 
 local function flee(self, dt)
     self.sprite:apply_animation(self.walk_animation)
@@ -107,7 +109,9 @@ Objects.create_type_from("Knight", "Enemy", {
         Objects.destroy(self.sword)
         
         if love.math.random() < 0.2 then
-            voiceline.play_line(death, 0, "Knight", "NOOO!")
+            local death_sfx = substance.unlocked and substance_death or death
+            local subtitle = substance.unlocked and "NOOO! MY SUBSTANCE!" or "NOOO!"
+            voiceline.play_line(death_sfx, 0, "Knight", subtitle)
         end
     end,
 
