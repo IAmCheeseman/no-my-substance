@@ -14,13 +14,8 @@ Objects.create_type("Bullet", {
         self.sprite.rotation = Vector.angle(self.dir_x, self.dir_y)
         self.sprite.centered = false
 
-        if self.dir_x < 0 then
-            self.sprite.offset_y = self.sprite.texture:getHeight() * 1.5
-            self.sprite.offset_x = (self.sprite.texture:getWidth() / self.sprite.frame_count) / 2
-        else
-            self.sprite.offset_y = -self.sprite.texture:getHeight() / 2
-            self.sprite.offset_x = -(self.sprite.texture:getWidth() / self.sprite.frame_count) / 2
-        end
+        self.sprite.offset_y = self.sprite.texture:getHeight() / 2
+        self.sprite.offset_x = (self.sprite.texture:getWidth() / self.sprite.frame_count) / 2
     end,
 
     on_update = function(self, dt)
@@ -59,5 +54,14 @@ Objects.create_type("Bullet", {
         self.y = self.y + self.dir_y * speed * dt
 
         self.depth = self.y + 100
+    end,
+
+    on_draw = function(self)
+        local frame = self.sprite:get_frame()
+        love.graphics.draw(
+            self.sprite.texture, frame,
+            self.x, self.y, self.sprite.rotation,
+            1, 1,
+            self.sprite.offset_x, self.sprite.offset_y)
     end
 })
