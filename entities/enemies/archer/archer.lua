@@ -114,7 +114,7 @@ Objects.create_type_from("Archer", "Enemy", {
         if love.math.random() < 0.2 then
             local death_sfx = substance.unlocked and substance_death or death
             local subtitle = substance.unlocked and "NOOO! MY SUBSTANCE!" or "NOOO!"
-            voiceline.play_line(death_sfx, 0, "Knight", subtitle)
+            voiceline.play_line(death_sfx, 0, "Archer", subtitle)
         end
     end,
 
