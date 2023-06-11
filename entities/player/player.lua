@@ -224,9 +224,19 @@ Objects.create_type("Player", {
 
         if self.state == dead then
             love.graphics.setFont(gui.font)
+            
+            love.graphics.setColor(0, 0, 0, 1)
+            local half_height = 180 / 2
+            local third_width = 321 / 3
+
+            love.graphics.rectangle("fill", 0, 0, 321, half_height - 22)
+            love.graphics.rectangle("fill", 0, half_height + 32, 321, 180)
+            love.graphics.rectangle("fill", 0, 0, third_width, 180)
+            love.graphics.rectangle("fill", 321 - third_width, 0, 321 - third_width, 180)
             love.graphics.setColor(1, 1, 1, 1)
-            gui.outlined_text("DEATH HAS FALLEN UPON YOU", 0, 180 / 2, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
-            gui.outlined_text("PRESS ''R'' TO REINCARNATE", 0, 180 / 2 + 8, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
+
+            gui.outlined_text("DEATH HAS FALLEN UPON YOU", 0, 180 / 2 - 32, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
+            gui.outlined_text("PRESS ''R'' TO REINCARNATE", 0, 180 / 2 + 32, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
         end
     end
 })
