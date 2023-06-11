@@ -14,8 +14,8 @@ local function flee(self, dt)
 
     local dir_x, dir_y = Vector.direction_between(self.x, self.y, self.target.x, self.target.y)
 
-    self.vel_x = math.lerp(self.vel_x, -dir_x * self.speed, self.accel * dt)
-    self.vel_y = math.lerp(self.vel_y, -dir_y * self.speed, self.accel * dt)
+    self.vel_x = math.lerp(self.vel_x, -dir_x * self.flee_speed, self.accel * dt)
+    self.vel_y = math.lerp(self.vel_y, -dir_y * self.flee_speed, self.accel * dt)
 
     self.sprite.scale_x = self.target.x < self.x and -1 or 1
 
@@ -66,6 +66,7 @@ Objects.create_type_from("Knight", "Enemy", {
     attack_animation = Sprite.new_animation(7, 7, 0),
 
     speed = 90,
+    flee_speed = 180,
     accel = 3,
 
     state = default,
@@ -90,7 +91,7 @@ Objects.create_type_from("Knight", "Enemy", {
         self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
 
         self:create_timer("attack", self.on_attack_over, 0.5)
-        self:create_timer("flee", self.on_flee_over, 1)
+        self:create_timer("flee", self.on_flee_over, 0.5)
 
         self:call_from_base("on_create")
 
