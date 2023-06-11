@@ -89,7 +89,7 @@ Objects.create_type("Player", {
     health_bar_recent_value = 1,
 
     speed = 150,
-    substance_speed = 200,
+    substance_speed = 180,
 
     roll_speed = 300,
     accel = 10,
@@ -116,7 +116,7 @@ Objects.create_type("Player", {
 
         local total_damage = damage
         if substance.active then
-            total_damage = total_damage * 2
+            total_damage = total_damage * 1.5
         end
 
         self.health = self.health - total_damage
@@ -179,7 +179,8 @@ Objects.create_type("Player", {
             Room.reset()
         end
 
-        if love.keyboard.isDown("e") and substance.unlocked then
+        if love.keyboard.isDown("e") and substance.unlocked and substance.amount == substance.max then
+            self.health = self.max_health
             self.timers.substance:start()
         end
 
