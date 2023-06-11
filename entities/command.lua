@@ -114,7 +114,7 @@ Objects.create_type("CommandExecutor", {
                 logger.log_message("There are " .. Objects.count_type(type_name) .. " instance(s) of " .. type_name)
                 return
             end
-            logger.log_message("Type ''" .. type_name .. "'' does not exist.")
+            logger.log_message("Type " .. type_name .. " does not exist.")
         end
     },
 
