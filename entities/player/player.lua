@@ -211,10 +211,17 @@ Objects.create_type("Player", {
         
         love.graphics.setFont(gui.font)
         love.graphics.setColor(0, 0, 0, 0.5)
-        love.graphics.print("HP: " .. self.health .. "/" .. self.max_health, 7, 5)
+        love.graphics.print(math.floor(self.health / self.max_health * 100) .. "%", 7, 5)
 
         if substance.unlocked or substance.active then
             gui.bar(5, 14, 50, 5, { 0.06, 0.07, 0.12 }, { 0, 1, 1 }, substance.amount / substance.max)
+        end
+
+        if self.state == dead then
+            love.graphics.setFont(gui.font)
+            love.graphics.setColor(1, 1, 1, 1)
+            gui.outlined_text("DEATH HAS FALLEN UPON YOU", 0, 180 / 2, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
+            gui.outlined_text("PRESS \"R\" TO REINCARNATE", 0, 180 / 2 + 8, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
         end
     end
 })
