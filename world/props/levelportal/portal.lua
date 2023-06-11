@@ -1,3 +1,5 @@
+local logger = require "gui.log"
+
 local woosh = love.audio.newSource("world/props/levelportal/woosh.mp3", "stream")
 
 Objects.create_type("LevelPortal", {
@@ -7,6 +9,7 @@ Objects.create_type("LevelPortal", {
     depth = -1,
 
     open = false,
+    previous_open = false,
 
     on_create = function(self)
         self.player = Objects.grab("Player")
@@ -21,6 +24,10 @@ Objects.create_type("LevelPortal", {
     on_update = function(self, dt)
         self.open = Objects.count_type("Enemy") == 0
 
+        if self.open ~= self.previous_open then
+            logger.log_message("Level cleared!")
+        end
+
         if Vector.distance_between(self.player.x, self.player.y, self.x, self.y) < 8 and self.open then
             current_level = current_level + 1
             if not Room.is_room_in_range(current_level) then
@@ -33,6 +40,8 @@ Objects.create_type("LevelPortal", {
 
         self.vortex_upper.rotation = self.vortex_upper.rotation + dt * 3
         self.vortex_lower.rotation = self.vortex_lower.rotation + dt * 3.5
+
+        self.previous_open = self.open
     end,
     on_draw = function(self)
         self.sprite:draw(self.x, self.y)
