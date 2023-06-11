@@ -8,6 +8,15 @@ local redo_spray_tan = love.audio.newSource("entities/player/voicelines/redospra
 local normal_sprite = Sprite.new("entities/player/player.png", 9, 10)
 local substance_sprite = Sprite.new("entities/player/playersubstancized.png", 9, 10)
 
+local level_start_lines = {
+    [1] = {
+        line = redo_spray_tan, 
+        priority = 0, 
+        speaker = "Chris", 
+        subtitle = "Man... I gotta redo my spray tan."
+    }
+}
+
 local function dead(self, dt)
     self.sprite:apply_animation(self.dead_animation)
 
@@ -152,8 +161,9 @@ Objects.create_type("Player", {
 
         self.hand.visible = false
     
-        if current_level == 1 then
-            voiceline.play_line(redo_spray_tan, 0, "Chris", "Man... I gotta redo my spray tan.")
+        if level_start_lines[current_level] then
+            local line = level_start_lines[current_level]
+            voiceline.play_line(line.line, line.priority, line.speaker, line.subtitle)
         end
     end,
     on_update = function(self, dt)
