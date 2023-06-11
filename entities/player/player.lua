@@ -221,7 +221,7 @@ Objects.create_type("Player", {
             love.graphics.setFont(gui.font)
             love.graphics.setColor(1, 1, 1, 1)
             gui.outlined_text("DEATH HAS FALLEN UPON YOU", 0, 180 / 2, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
-            gui.outlined_text("PRESS \"R\" TO REINCARNATE", 0, 180 / 2 + 8, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
+            gui.outlined_text("PRESS ''R'' TO REINCARNATE", 0, 180 / 2 + 8, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
         end
     end
 })
