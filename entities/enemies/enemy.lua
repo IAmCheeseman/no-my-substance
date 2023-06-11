@@ -35,6 +35,8 @@ Objects.create_type("Enemy", {
                 substance.give_substance(self.substance_amount)
                 local new_substace = Objects.instance_at("Substance", self.x, self.y)
             end
+
+            self.camera:shake(3, 3, 5, 0.05, 0.1, true)
             
             if self.on_death then
                 self:on_death()
@@ -55,6 +57,7 @@ Objects.create_type("Enemy", {
         self.shadow = self.sprite:copy()
 
         self.player = Objects.grab("Player")
+        self.camera = Objects.grab("Camera")
 
         self:create_timer("iframes", nil, 0.2)
     end,
