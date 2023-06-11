@@ -68,6 +68,16 @@ Objects.create_type("Enemy", {
         local push_y = 0
 
         self.target = self.player
+        local dist = Vector.distance_between(self.x, self.y, self.target.x, self.target.y)
+        local dist_player = Vector.mdistance_between(self.x / 16, self.y / 16, self.player.x / 16, self.player.y / 16)
+        Objects.with("PriorityPoint", function(other)
+            local other_dist = Vector.distance_between(self.x, self.y, other.x, other.y)
+            local other_dist_player = Vector.mdistance_between(other.x / 16, other.y / 16, self.player.x / 16, self.player.y / 16)
+            if other_dist < dist and other_dist_player < dist_player then
+                dist = other_dist
+                self.target = other
+            end
+        end)
 
         Objects.with("Enemy", function(other)
             if other == self then
