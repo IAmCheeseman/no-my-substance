@@ -108,7 +108,7 @@ Objects.create_type("CommandExecutor", {
 
             logger.log_message("Enabled substance")
         end,
-        ["c%w"] = function(self)
+        ["count%w"] = function(self)
             local type_name = string.gsub(self.current_command, "/c", "")
             if Objects.does_type_exist(type_name) then
                 logger.log_message("There are " .. Objects.count_type(type_name) .. " instance(s) of " .. type_name)
