@@ -15,7 +15,7 @@ end
 
 local function get_command(command, commands)
     for k, v in pairs(commands) do
-        if string.find(command, k) ~= nil then
+        if string.find(command, "/" .. k) ~= nil then
             return v
         end
     end
@@ -42,73 +42,73 @@ Objects.create_type("CommandExecutor", {
     current_command = "",
 
     commands = {
-        ["/clev%d"] = function(self)
+        ["clev%d"] = function(self)
             local level = string.gsub(self.current_command, "[^%d]", "")
             current_level = tonumber(level)
             Room.change_to(get_current_level())
 
             logger.log_message("Changed to level #" .. level)
         end,
-        ["/testl"] = function(self)
+        ["testl"] = function(self)
             Room.change_to("TestRoom")
 
             logger.log_message("Changed to test room")
         end,
-        ["/gmd"] = function(self)
+        ["gmd"] = function(self)
             godmode = not godmode
 
             logger.log_message("Godmode is " .. (godmode and "on" or "off"))
         end,
-        ["/shp%d"] = function(self)
+        ["shp%d"] = function(self)
             local health = string.gsub(self.current_command, "[^%d]", "")
             local player = Objects.grab("Player")
             player.health = math.clamp(tonumber(health), 0, player.max_health)
 
             logger.log_message("Set health to " .. health .. "/" .. player.max_health)
         end,
-        ["/dmg%d"] = function(self)
+        ["dmg%d"] = function(self)
             local damage = string.gsub(self.current_command, "[^%d]", "")
             local player = Objects.grab("Player")
             player:take_damage(damage, 0, 0)
 
             logger.log_message("Dealt " .. damage .. " damage to player")
         end,
-        ["/rhp"] = function(self)
+        ["rhp"] = function(self)
             reset_health()
         end,
-        ["/oli"] = function(self)
+        ["oli"] = function(self)
             reset_health()
         end,
-        ["/kill"] = function(self)
+        ["kill"] = function(self)
             kill_player()
         end,
-        ["/kall"] = function(self)
+        ["kall"] = function(self)
             Objects.with("Enemy", function(other)
                 other:take_damage(other.max_health, 0, 0)
             end)
 
             logger.log_message("Killed all enemies")
         end,
-        ["/dot32"] = function(self)
+        ["dot32"] = function(self)
             kill_player()
         end,
-        ["/ivis"] = function(self)
+        ["ivis"] = function(self)
             player_invisible = not player_invisible
 
             logger.log_message("Invisibility is " .. (player_invisible and "on" or "off"))
         end,
-        ["/usub"] = function(self)
+        ["usub"] = function(self)
             substace.unlocked = not substace.unlocked
 
             logger.log_message(substace.unlocked and "Unlocked substance" or "Locked substance")
         end,
-        ["/sub"] = function(self)
+        ["sub"] = function(self)
             local player = Objects.grab("Player")
             player:start_substance()
 
             logger.log_message("Enabled substance")
         end,
-        ["/c%w"] = function(self)
+        ["c%w"] = function(self)
             local type_name = string.gsub(self.current_command, "/c", "")
             if Objects.does_type_exist(type_name) then
                 logger.log_message("There are " .. Objects.count_type(type_name) .. " instance(s) of " .. type_name)
