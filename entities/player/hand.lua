@@ -14,7 +14,7 @@ Objects.create_type("Hand", {
         self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
         self.sprite.center = false
 
-        self:create_timer("cooldown", nil, 0.7)
+        self:create_timer("cooldown", nil, 0.5)
     end,
     on_update = function(self, dt)
         local mx, my = love.mouse.getPosition()
@@ -44,7 +44,9 @@ Objects.create_type("Hand", {
             self.timers.cooldown:start()
 
             self.visible = true
-            Objects.grab("Gun").visible = false
+            
+            local gun = Objects.grab("Gun")
+            gun.visible = false
         end
     end
 })

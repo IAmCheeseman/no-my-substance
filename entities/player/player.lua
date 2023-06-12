@@ -222,17 +222,34 @@ Objects.create_type("Player", {
     end,
 
     on_gui = function(self)
+        -- Health
         gui.bar(5, 5, 100, 10, { 0.06, 0.07, 0.12 }, { 1, 1, 1 }, self.health_bar_recent_value)
         gui.bar(5, 5, 100, 10, { 0, 0, 0, 0 }, { 0.64, 0.18, 0.18 }, self.health_bar_value)
         
         love.graphics.setFont(gui.font)
         love.graphics.setColor(0, 0, 0, 0.5)
         love.graphics.print(math.floor(self.health / self.max_health * 100) .. "%", 7, 5)
-
+        
+        -- Substance
         if substance.unlocked or substance.active then
             gui.bar(5, 14, 50, 5, { 0.06, 0.07, 0.12 }, { 0, 1, 1 }, substance.amount / substance.max)
         end
 
+        -- ammo
+        if self.gun.timers.regenerate_ammo then
+            gui.bar(5, 180 - 13, 48, 10, { 0, 0, 0 }, { 1, 0.8, 0 }, self.gun.ammo / self.gun.magazine_size)
+
+            local ammo_regen = 1 - self.gun.timers.regenerate_ammo.time / self.gun.timers.regenerate_ammo.total_time
+            if self.gun.timers.regenerate_ammo.is_over then
+                ammo_regen = 1
+            end
+            gui.bar(5, 180 - 4, 32, 3, { 0, 0, 0 }, { 1, 1, 1 }, ammo_regen)
+
+            love.graphics.setColor(0.4, 0.2, 0, 0.5)
+            love.graphics.print(self.gun.ammo .. "/" .. self.gun.magazine_size, 7, 180 - 14)
+        end
+
+        -- Death screen
         if self.state == dead then
             love.graphics.setFont(gui.font)
             

@@ -9,6 +9,13 @@ Objects.create_type("Gun", {
     magazine_size = 12,
     ammo = 12,
 
+    regenerate_ammo = function(self)
+        self.ammo = math.clamp(self.ammo + 1, 0, self.magazine_size)
+        if self.ammo ~= self.magazine_size then
+            self.timers.regenerate_ammo:start()
+        end
+    end,
+
     on_create = function(self)
         self.target = Objects.grab("Player")
         
@@ -17,12 +24,7 @@ Objects.create_type("Gun", {
         self.sprite.center = false
 
         self:create_timer("cooldown", nil, 0.1)
-        self:create_timer("regenerate_ammo", function()
-            self.ammo = math.clamp(self.ammo + 1, 0, self.magazine_size)
-            if self.ammo ~= self.magazine_size then
-                self.timers.regenerate_ammo:start()
-            end
-        end, 0.5)
+        self:create_timer("regenerate_ammo", self.regenerate_ammo, 0.5)
     end,
     on_update = function(self, dt)
         local mx, my = love.mouse.getPosition()
@@ -38,18 +40,6 @@ Objects.create_type("Gun", {
     end,
     on_draw = function(self)
         self.sprite:draw(self.x, self.y)
-    end,
-    on_gui = function(self)
-        gui.bar(5, 180 - 13, 48, 10, { 0, 0, 0 }, { 1, 0.8, 0 }, self.ammo / self.magazine_size)
-
-        local ammo_regen = 1 - self.timers.regenerate_ammo.time / self.timers.regenerate_ammo.total_time
-        if self.timers.regenerate_ammo.is_over then
-            ammo_regen = 1
-        end
-        gui.bar(5, 180 - 4, 32, 3, { 0, 0, 0 }, { 1, 1, 1 }, ammo_regen)
-
-        love.graphics.setColor(0.4, 0.2, 0, 0.5)
-        love.graphics.print(self.ammo .. "/" .. self.magazine_size, 7, 180 - 14)
     end,
 
     on_mouse_press = function(self, _, _, button, _, _)
