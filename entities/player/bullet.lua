@@ -37,7 +37,10 @@ Objects.create_type("Bullet", {
             end
 
             local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
-            if dist < 12 then
+            local collision_radius = math.min(
+                (other.sprite.texture:getWidth() / other.sprite.frame_count) / 2, 
+                other.sprite.texture:getHeight() / 2)
+            if dist < collision_radius then
                 other:take_damage(7, self.dir_x, self.dir_y)
 
                 self.hit[other] = 0
