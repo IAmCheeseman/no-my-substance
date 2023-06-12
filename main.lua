@@ -7,6 +7,7 @@ current_level = 1
 
 local music = love.audio.newSource("nmstheme.mp3", "static")
 music:setLooping(true)
+music:setVolume(0.5)
 
 function get_current_level()
     return "Level_" .. current_level
@@ -22,5 +23,5 @@ function love.load()
 
     Room.initialize("", "levels.ldtk", get_current_level())
 
-    music:play()
+    -- music:play()
 end
