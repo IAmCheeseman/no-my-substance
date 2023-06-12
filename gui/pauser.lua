@@ -1,3 +1,5 @@
+local gui = require "gui.gui"
+
 Objects.create_type("Pauser", {
     persistent = true,
     depth = 50,
@@ -60,6 +62,23 @@ Objects.create_type("Pauser", {
         love.graphics.rectangle("fill", x, y, w - x, h - y)
         love.graphics.setColor(0, 0, 0, 1)
         love.graphics.rectangle("line", x, y, w - x, h - y)
+
+        gui.outlined_text(string.upper(
+            [[
+/gmd - godmode
+/shp## - set health
+/rhp - reset health
+/dmg## - deal damage to player
+/clev## - change level
+/testl - test level
+/kill - kill player
+/kall - kill all enemies
+/ivis - enemies ignore you
+/usub - unlock substance
+/sub - activate substance
+/count... - count object
+/inst... - instance object
+]]), 320 / 2, 32, 320, "left", { 0, 0, 0 }, { 1, 0, 1 }, 1)
     end,
 
     on_key_press = function(self, key, _, is_repeat)

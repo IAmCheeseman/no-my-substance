@@ -109,9 +109,18 @@ Objects.create_type("CommandExecutor", {
             logger.log_message("Enabled substance")
         end,
         ["count%w"] = function(self)
-            local type_name = string.gsub(self.current_command, "/c", "")
+            local type_name = string.gsub(self.current_command, "/count", "")
             if Objects.does_type_exist(type_name) then
                 logger.log_message("There are " .. Objects.count_type(type_name) .. " instance(s) of " .. type_name)
+                return
+            end
+            logger.log_message("Type " .. type_name .. " does not exist.")
+        end,
+        ["inst%w"] = function(self)
+            local type_name = string.gsub(self.current_command, "/inst", "")
+            if Objects.does_type_exist(type_name) then
+                local player = Objects.grab("Player")
+                Objects.instance_at(type_name, player.x - 32, player.y)
                 return
             end
             logger.log_message("Type " .. type_name .. " does not exist.")
