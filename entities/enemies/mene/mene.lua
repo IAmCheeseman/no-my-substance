@@ -83,6 +83,8 @@ Objects.create_type_from("Mene", "Enemy", {
     flee_speed = 180,
     accel = 3,
 
+    use_blood = false,
+
     damage = 3,
 
     health = 60,

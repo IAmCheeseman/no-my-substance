@@ -43,8 +43,10 @@ Objects.create_type("Enemy", {
             end
         end
         
-        blood.new(self.x, self.y, Vector.angle(kb_x, kb_y) + math.pi)
-        
+        if self.use_blood then
+            blood.new(self.x, self.y, Vector.angle(kb_x, kb_y) + math.pi)
+        end
+
         self.vel_x = self.vel_x + kb_x * self.kb_strength
         self.vel_y = self.vel_y + kb_y * self.kb_strength
 
