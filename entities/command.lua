@@ -38,6 +38,7 @@ end
 
 Objects.create_type("CommandExecutor", {
     persistent = true,
+    pause_mode = "never",
 
     current_command = "",
 

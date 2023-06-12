@@ -10,6 +10,7 @@ end
 if not Objects.does_type_exist("Logger") then
     Objects.create_type("Logger", {
         persistent = true,
+        pause_mode = "never",
         depth = 100000,
 
         messages = {},
