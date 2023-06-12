@@ -1,3 +1,4 @@
+local substance = require "substance"
 local shoot_sfx = love.sound.newSoundData("entities/player/shoot.mp3")
 
 Objects.create_type("Gun", {
@@ -30,7 +31,7 @@ Objects.create_type("Gun", {
     end,
 
     on_mouse_press = function(self, _, _, button, _, _)
-        if button == 1 and self.timers.cooldown.is_over then            
+        if button == 1 and not substance.active and self.timers.cooldown.is_over then            
             local mx, my = love.mouse.getPosition()
             local dir_x, dir_y = Vector.rotated(1, 0, Vector.angle_between(self.x, self.y, mx, my))
             local bullet = Objects.instance_at("Bullet", self.x + dir_x * 5, self.y + dir_y * 5)

@@ -1,3 +1,5 @@
+local substance = require "substance"
+
 Objects.create_type("Hand", {
     sprite = Sprite.new("entities/player/hand.png", 6, 10),
     idle_animation = Sprite.new_animation(1, 1, 0),
@@ -34,7 +36,7 @@ Objects.create_type("Hand", {
     end,
 
     on_mouse_press = function(self, _, _, button, _, _)
-        if button == 2 and self.timers.cooldown.is_over then
+        if (button == 2 or substance.active) and self.timers.cooldown.is_over then
             self.sprite:apply_animation(self.swing_animation)
             
             local swipe = Objects.instance_at("HandSwipe", self.x, self.y)
