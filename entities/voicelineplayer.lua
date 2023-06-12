@@ -37,6 +37,8 @@ if not Objects.does_type_exist("VoiceLinePlayer") then
     Objects.create_type("VoiceLinePlayer", {
         persistent = true,
 
+        subtitles = true,
+
         on_update = function(self, dt)
             for k, v in pairs(current) do
                 if not v.audio:isPlaying() then
@@ -46,6 +48,9 @@ if not Objects.does_type_exist("VoiceLinePlayer") then
         end,
 
         on_gui = function(self)
+            if not self.subtitles then
+                return
+            end
             local line = nil
             local i = 1
             for _, v in pairs(current) do

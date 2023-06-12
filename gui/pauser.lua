@@ -40,7 +40,20 @@ Objects.create_type("Pauser", {
                 end
             end
 
-            local exit = self:new_ui_element("Button", 50, 120)
+            local subtitles = self:new_ui_element("Button", 50, 120)
+            local voiceline_player = Objects.grab("VoiceLinePlayer")
+            subtitles.text = voiceline_player.subtitles and "Subtitles: On" or "Subtitles: Off"
+            subtitles.on_click = function()
+                if voiceline_player.subtitles then
+                    voiceline_player.subtitles = false
+                    subtitles.text = "SUBTITLES: OFF"
+                else
+                    voiceline_player.subtitles = true
+                    subtitles.text = "SUBTITLES: ON"
+                end
+            end
+
+            local exit = self:new_ui_element("Button", 50, 140)
             exit.text = "Exit"
             exit.on_click = love.window.close
         else
@@ -56,7 +69,7 @@ Objects.create_type("Pauser", {
             return
         end
 
-        local x, y, w, h = 20, 55, 80, 130
+        local x, y, w, h = 20, 55, 80, 150
 
         love.graphics.setColor(0, 0, 0, 0.5)
         love.graphics.rectangle("fill", x, y, w - x, h - y)
