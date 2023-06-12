@@ -37,7 +37,7 @@ Objects.create_type("Bullet", {
             end
 
             local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
-            local collision_radius = math.min(
+            local collision_radius = math.max(
                 (other.sprite.texture:getWidth() / other.sprite.frame_count) / 2, 
                 other.sprite.texture:getHeight() / 2)
             if dist < collision_radius then

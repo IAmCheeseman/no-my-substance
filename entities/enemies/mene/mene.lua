@@ -76,15 +76,35 @@ Objects.create_type_from("Mene", "Enemy", {
     walk_animation = Sprite.new_animation(1, 7, 10),
     attack_animation = Sprite.new_animation(7, 7, 0),
 
+    substance_sprite = Sprite.new("entities/substance/substance.png", 1, 0),
+    substance_positions = {},
+
     speed = 110,
     flee_speed = 180,
     accel = 3,
 
-    health = 40,
+    damage = 3,
+
+    health = 60,
+    kb_strength = 100,
 
     rot = 0,
 
     state = default,
+
+    spawn_substance_trail = function(self)
+        for i = 1, 8 do
+            local time = love.math.random(4)
+            table.insert(self.substance_positions, {
+                x = self.x + love.math.random(-5, 5),
+                y = self.y + love.math.random(-5, 5),
+                r = love.math.random(math.pi * 2),
+                total_time = time,
+                time = time
+            })
+        end
+        self.timers.substance_trail:start()
+    end,
 
     on_attack_over = function(self)
         if self.state == default then
@@ -108,12 +128,37 @@ Objects.create_type_from("Mene", "Enemy", {
         self:create_timer("spin", nil, 5)
         self:create_timer("attack", self.on_attack_over, 0.5)
         self:create_timer("flee", self.on_flee_over, 0.25)
+        self:create_timer("substance_trail", self.spawn_substance_trail, 0.05)
+
+        self.timers.substance_trail:start()
 
         self:call_from_base("on_create")
     end,
     on_update = function(self, dt)
         self:call_from_base("on_update", dt)
         self:state(dt)
+
+        for i = #self.substance_positions, 1, -1 do
+            local v = self.substance_positions[i]
+            v.time = v.time - dt
+            if v.time < 0 then
+                table.remove(self.substance_positions, i)
+            end
+        end
+    end,
+
+    on_draw = function(self)
+        love.graphics.setBlendMode("add")
+        for _, v in ipairs(self.substance_positions) do
+            self.substance_sprite.rotation = v.r
+            local scale = v.time / v.total_time
+            self.substance_sprite.scale_x = scale
+            self.substance_sprite.scale_y = scale
+            self.substance_sprite:draw(v.x, v.y)
+        end
+        love.graphics.setBlendMode("alpha")
+
+        self:call_from_base("on_draw")
     end,
 
     on_death = function(self)        

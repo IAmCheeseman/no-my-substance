@@ -103,6 +103,12 @@ Objects.create_type("CommandExecutor", {
 
             logger.log_message(substace.unlocked and "Unlocked substance" or "Locked substance")
         end,
+        ["ssub%d"] = function(self)
+            local amount = string.gsub(self.current_command, "[^%d]", "")
+            substace.amount = tonumber(amount)
+
+            logger.log_message("Substance set to " .. amount)
+        end,
         ["sub"] = function(self)
             local player = Objects.grab("Player")
             player:start_substance()

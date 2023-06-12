@@ -179,6 +179,16 @@ Objects.create_type("Player", {
         self.health_bar_recent_value = math.clamp(math.lerp(self.health_bar_recent_value, self.health / self.max_health, 3 * dt), 0, 1)
 
         substance.active = not self.timers.substance.is_over
+
+        local mene_count = 0
+        Objects.with("Mene", function(other)
+            local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
+            if dist < 64 then
+                mene_count = mene_count + 1
+            end
+        end)
+        substance.amount = math.clamp(substance.amount - mene_count * 10 * dt, 0, substance.max)
+
         if substance.active then
             substance.amount = (self.timers.substance.time / substance.time) * substance.max
             self.sprite = substance_sprite
