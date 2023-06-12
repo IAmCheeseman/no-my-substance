@@ -53,8 +53,13 @@ Objects.create_type("Pauser", {
         if not Objects.are_paused then
             return
         end
+
+        local x, y, w, h = 20, 55, 80, 130
+
         love.graphics.setColor(0, 0, 0, 0.5)
-        love.graphics.rectangle("fill", 25, 70, 50, 60)
+        love.graphics.rectangle("fill", x, y, w - x, h - y)
+        love.graphics.setColor(0, 0, 0, 1)
+        love.graphics.rectangle("line", x, y, w - x, h - y)
     end,
 
     on_key_press = function(self, key, _, is_repeat)
