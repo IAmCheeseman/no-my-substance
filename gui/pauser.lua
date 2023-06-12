@@ -22,7 +22,7 @@ Objects.create_type("Pauser", {
             local continue = self:new_ui_element("Button", 50, 80)
             continue.text = "Continue"
             continue.on_click = function()
-                Objects.are_paused = false
+                Objects.toggle_pause()
                 self:update_pause_menu()
             end    
 
@@ -59,7 +59,7 @@ Objects.create_type("Pauser", {
 
     on_key_press = function(self, key, _, is_repeat)
         if key == "escape" and not is_repeat then
-            Objects.are_paused = not Objects.are_paused
+            Objects.toggle_pause()
             self:update_pause_menu()
         end
     end
