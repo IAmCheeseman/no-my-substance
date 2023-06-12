@@ -121,6 +121,7 @@ Objects.create_type("CommandExecutor", {
             if Objects.does_type_exist(type_name) then
                 local player = Objects.grab("Player")
                 Objects.instance_at(type_name, player.x - 32, player.y)
+                logger.log_message("Instanced " .. type_name .. " successfully")
                 return
             end
             logger.log_message("Type " .. type_name .. " does not exist.")
