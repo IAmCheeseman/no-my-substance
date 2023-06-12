@@ -70,11 +70,11 @@ end
 
 
 Objects.create_type_from("Mene", "Enemy", {
-    sprite = Sprite.new("entities/enemies/mene/mene.png", 7, 10),
+    sprite = Sprite.new("entities/enemies/mene/mene.png", 9, 10),
     corpse_sprite = Sprite.new("entities/enemies/knight/knightcorpse.png", 1, 0),
     idle_animation = Sprite.new_animation(1, 7, 10),
     walk_animation = Sprite.new_animation(1, 7, 10),
-    attack_animation = Sprite.new_animation(7, 7, 0),
+    attack_animation = Sprite.new_animation(8, 9, 10),
 
     substance_sprite = Sprite.new("entities/substance/substance.png", 1, 0),
     substance_positions = {},
@@ -112,6 +112,8 @@ Objects.create_type_from("Mene", "Enemy", {
         if self.state == default then
             return
         end
+        local ball = Objects.instance_at("SubstanceBall", self.x, self.y)
+
         self.state = flee
         self.timers.flee:start()
     end,
@@ -128,7 +130,7 @@ Objects.create_type_from("Mene", "Enemy", {
         self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
 
         self:create_timer("spin", nil, 5)
-        self:create_timer("attack", self.on_attack_over, 0.5)
+        self:create_timer("attack", self.on_attack_over, 1)
         self:create_timer("flee", self.on_flee_over, 0.25)
         self:create_timer("substance_trail", self.spawn_substance_trail, 0.05)
 
