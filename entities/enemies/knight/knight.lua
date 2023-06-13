@@ -67,6 +67,8 @@ Objects.create_type_from("Knight", "Enemy", {
     walk_animation = Sprite.new_animation(4, 6, 10),
     attack_animation = Sprite.new_animation(7, 7, 0),
 
+    health = 7,
+
     speed = 90,
     flee_speed = 180,
     accel = 3,

@@ -72,7 +72,7 @@ Objects.create_type_from("Archer", "Enemy", {
     accel = 3,
     frict = 6,
 
-    health = 15,
+    health = 10,
 
     state = default,
 
