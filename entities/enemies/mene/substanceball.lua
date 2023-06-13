@@ -68,7 +68,7 @@ Objects.create_type("SubstanceBall", {
     substance_positions = {},
 
     speed = 100,
-    accel = 10,
+    accel = 30,
 
     vel_x = 0,
     vel_y = 0,
