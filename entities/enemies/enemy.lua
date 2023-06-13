@@ -24,10 +24,12 @@ Objects.create_type("Enemy", {
         self.health = self.health - damage
         
         if self.health <= 0 then
-            local corpse = Objects.instance_at("Corpse", self.x, self.y)
-            corpse.vel_x = kb_x * self.kb_strength
-            corpse.vel_y = kb_y * self.kb_strength
-            corpse.sprite = self.corpse_sprite
+            if self.use_corpse then
+                local corpse = Objects.instance_at("Corpse", self.x, self.y)
+                corpse.vel_x = kb_x * self.kb_strength
+                corpse.vel_y = kb_y * self.kb_strength
+                corpse.sprite = self.corpse_sprite
+            end
 
             Objects.destroy(self)
 
