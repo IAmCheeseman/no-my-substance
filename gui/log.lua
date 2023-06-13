@@ -26,6 +26,12 @@ if not Objects.does_type_exist("Logger") then
             logger = self
         end,
 
+        on_room_change = function(self, room_name)
+            if Room.properties.name then
+                self:add_message(Room.properties.name)
+            end
+        end,
+
         on_update = function(self, dt)
             for i = #self.messages, 1, -1 do
                 local message = self.messages[i]
