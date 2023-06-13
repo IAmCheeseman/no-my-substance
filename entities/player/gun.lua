@@ -9,10 +9,16 @@ Objects.create_type("Gun", {
     magazine_size = 12,
     ammo = 12,
 
+    get_ammo_regen_time = function(self)
+        local percent_of_forgiveness = self.ammo / self.magazine_size
+        percent_of_forgiveness = percent_of_forgiveness * 0.75
+        return 0.5 - (0.3 * percent_of_forgiveness)
+    end,
+
     regenerate_ammo = function(self)
         self.ammo = math.clamp(self.ammo + 1, 0, self.magazine_size)
         if self.ammo ~= self.magazine_size then
-            self.timers.regenerate_ammo:start()
+            self.timers.regenerate_ammo:start(self:get_ammo_regen_time())
         end
     end,
 
@@ -62,7 +68,7 @@ Objects.create_type("Gun", {
 
             self.ammo = self.ammo - 1
 
-            self.timers.regenerate_ammo:start()
+            self.timers.regenerate_ammo:start(self:get_ammo_regen_time())
         end
     end,
 })

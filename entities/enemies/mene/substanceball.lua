@@ -48,7 +48,7 @@ local function default(self, dt)
     self.vel_y = math.lerp(self.vel_y, dir_y * self.speed, self.accel * dt)
 
     if dist < 10 then
-        self.player:take_damage(5, dir_x, dir_y)
+        self.player:take_damage(4, dir_x, dir_y)
         self.state = dissapate
     end
 
@@ -66,7 +66,7 @@ Objects.create_type("SubstanceBall", {
     substance_positions = {},
 
     speed = 140,
-    accel = 5,
+    accel = 4,
 
     vel_x = 0,
     vel_y = 0,

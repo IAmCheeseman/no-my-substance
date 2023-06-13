@@ -12,7 +12,7 @@ Objects.create_type("Enemy", {
     health = 10,
     max_health = 10,
 
-    substance_amount = substance.max / 15,
+    substance_amount = substance.max / 10,
 
     push_speed = 300,
     kb_strength = 300,
@@ -38,6 +38,8 @@ Objects.create_type("Enemy", {
 
             self.camera:shake(3, 3, 5, 0.05, 0.1, true)
             
+            Objects.grab("Gun"):regenerate_ammo()
+
             if self.on_death then
                 self:on_death()
             end

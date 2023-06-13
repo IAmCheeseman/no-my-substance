@@ -24,7 +24,7 @@ Objects.create_type("ArcherArrow", {
 
         local dist = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
         if dist < 12 then
-            self.player:take_damage(3, self.dir_x, self.dir_y)
+            self.player:take_damage(2.5, self.dir_x, self.dir_y)
             Objects.destroy(self)
         end
 
