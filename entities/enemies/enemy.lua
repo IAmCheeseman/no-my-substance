@@ -16,6 +16,9 @@ Objects.create_type("Enemy", {
 
     push_speed = 300,
     kb_strength = 300,
+
+    use_blood = true,
+    use_corpse = true,
     
     vel_x = 0,
     vel_y = 0,
@@ -40,7 +43,10 @@ Objects.create_type("Enemy", {
 
             self.camera:shake(3, 3, 5, 0.05, 0.1, true)
             
-            Objects.grab("Gun"):regenerate_ammo()
+            local gun = Objects.grab("Gun")
+            if gun then
+                gun:regenerate_ammo()
+            end
 
             if self.on_death then
                 self:on_death()

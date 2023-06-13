@@ -48,6 +48,8 @@ Objects.create_type("Mangler", {
     end,
 
     on_create = function(self)
+        self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 4)
+
         self.player = Objects.grab("Player")
 
         self:create_timer("pause", self.shoot, 0.5)
