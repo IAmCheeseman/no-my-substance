@@ -1,5 +1,8 @@
 local substance = require "substance"
+local voiceline = require "entities.voicelineplayer"
 local logger = require "gui.log"
+
+local horribly_wrong = love.audio.newSource("entities/player/voicelines/horriblywrong.mp3", "stream")
 
 local function reset(self, dt)
     Game.camera_scale = math.lerp(Game.camera_scale, 1, 10 * dt)
@@ -8,6 +11,8 @@ local function reset(self, dt)
         self.sent_message = true
 
         substance.unlocked = true
+
+        voiceline.play_line(horribly_wrong, 0, "Chris", "Man, I feel like something is about to go horribly wrong.")
     end
 end
 

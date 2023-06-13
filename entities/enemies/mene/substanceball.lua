@@ -44,8 +44,8 @@ local function default(self, dt)
     local dir_x, dir_y = Vector.direction_between(self.x, self.y, self.player.x, self.player.y)
     local dist = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
 
-    self.vel_x = math.lerp(self.vel_x, dir_x * self.speed, 5 * dt)
-    self.vel_y = math.lerp(self.vel_y, dir_y * self.speed, 5 * dt)
+    self.vel_x = math.lerp(self.vel_x, dir_x * self.speed, self.accel * dt)
+    self.vel_y = math.lerp(self.vel_y, dir_y * self.speed, self.accel * dt)
 
     if dist < 10 then
         self.player:take_damage(5, dir_x, dir_y)
@@ -58,8 +58,6 @@ local function default(self, dt)
 
     self.x = self.x + self.vel_x * dt
     self.y = self.y + self.vel_y * dt
-
-    self.speed = self.speed + self.accel * dt
 end
 
 Objects.create_type("SubstanceBall", {
@@ -67,8 +65,8 @@ Objects.create_type("SubstanceBall", {
 
     substance_positions = {},
 
-    speed = 100,
-    accel = 30,
+    speed = 140,
+    accel = 5,
 
     vel_x = 0,
     vel_y = 0,
