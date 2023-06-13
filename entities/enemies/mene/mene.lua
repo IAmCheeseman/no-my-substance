@@ -87,7 +87,7 @@ Objects.create_type_from("Mene", "Enemy", {
 
     damage = 3,
 
-    health = 60,
+    health = 40,
     kb_strength = 100,
     
     substance_amount = substance.max / 3,
