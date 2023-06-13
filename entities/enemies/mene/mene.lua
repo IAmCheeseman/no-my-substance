@@ -76,7 +76,7 @@ Objects.create_type_from("Mene", "Enemy", {
     walk_animation = Sprite.new_animation(1, 7, 10),
     attack_animation = Sprite.new_animation(8, 9, 10),
 
-    substance_sprite = Sprite.new("entities/substance/substance.png", 1, 0),
+    substance_sprite = Sprite.new("entities/enemies/mene/substance.png", 1, 0),
     substance_positions = {},
 
     speed = 110,

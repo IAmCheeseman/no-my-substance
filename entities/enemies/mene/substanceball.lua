@@ -61,7 +61,7 @@ local function default(self, dt)
 end
 
 Objects.create_type("SubstanceBall", {
-    substance_sprite = Sprite.new("entities/substance/substance.png", 1, 0),
+    substance_sprite = Sprite.new("entities/enemies/mene/substance.png", 1, 0),
 
     substance_positions = {},
 
