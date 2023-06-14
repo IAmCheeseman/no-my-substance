@@ -1,6 +1,7 @@
 
 local mouse = {
     persistent = true,
+    depth = 100,
     mouse_sprite = Sprite.new("gui/mouse/mouse.png", 1, 0),
 }
 
