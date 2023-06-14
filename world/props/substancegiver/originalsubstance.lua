@@ -55,7 +55,7 @@ function original_substance:absorb(dt)
     Game.camera_scale = math.lerp(Game.camera_scale, 1.25, 10 * dt)
 
     if #self.substance_positions == 0 then
-        self.state = reset
+        self.state = self.reset
         Objects.grab("SubstanceGiver").sprite.frame = 2
     end
 end
@@ -71,7 +71,7 @@ function original_substance:default(dt)
         target_oy = dir_y * (dist / self.merge_dist) * (dist * 0.6)
     end
     if dist < 16 then
-        self.state = absorb
+        self.state = self.absorb
         self.camera:shake(10, 6, 12, 0.05, 2, true)
     end
 
@@ -113,7 +113,7 @@ function original_substance:on_create()
         })
     end
 
-    state = self.default
+    self.state = self.default
 end
 
 function original_substance:on_update(dt)
