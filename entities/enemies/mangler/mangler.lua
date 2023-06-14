@@ -28,10 +28,12 @@ function mangler:on_update(dt)
         self.sprite.fps = 0
         self.timers.pause:start()
         self.pausing = true
-    end 
+    end
     if self.sprite.frame == 13 then
         Objects.destroy(self)
-    end       
+    end
+    
+    self.sprite.scale_x = self.player.x > self.x and -1 or 1
 end
 
 Objects.create_type("Mangler", mangler)
