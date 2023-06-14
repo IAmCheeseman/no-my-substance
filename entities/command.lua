@@ -159,3 +159,5 @@ Objects.create_type("CommandExecutor", {
         end
     end
 })
+
+Objects.instance("CommandExecutor")

@@ -71,6 +71,8 @@ if not Objects.does_type_exist("VoiceLinePlayer") then
             end
         end
     })
+
+    Objects.instance("VoiceLinePlayer")
 end
 
 return module

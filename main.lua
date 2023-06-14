@@ -10,12 +10,5 @@ function get_current_level()
 end
 
 function love.load()
-    Objects.instance("Logger")
-    Objects.instance("Pauser")
-    Objects.instance("Camera")
-    Objects.instance("CommandExecutor")
-    Objects.instance("VoiceLinePlayer")
-    Objects.instance("BloodManager")
-
     Room.initialize("", "levels.ldtk", get_current_level())
 end

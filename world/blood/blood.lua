@@ -62,6 +62,8 @@ if not Objects.does_type_exist("BloodManager") then
             love.graphics.draw(self.canvas, 0, 0)
         end
     })
+
+    Objects.instance("BloodManager")
 end
 
 return module

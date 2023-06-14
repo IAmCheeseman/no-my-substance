@@ -101,3 +101,5 @@ Objects.create_type("Pauser", {
         end
     end
 })
+
+Objects.instance("Pauser")

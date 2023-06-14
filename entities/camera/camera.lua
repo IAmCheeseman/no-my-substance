@@ -109,3 +109,5 @@ Objects.create_type("Camera", {
         jump(self)
     end
 })
+
+Objects.instance("Camera")

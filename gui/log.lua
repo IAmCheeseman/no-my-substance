@@ -59,6 +59,8 @@ if not Objects.does_type_exist("Logger") then
             end
         end
     })
+
+    Objects.instance("Logger")
 end
 
 return module
