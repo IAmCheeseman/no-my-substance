@@ -4,7 +4,19 @@ local logger = require "gui.log"
 
 local horribly_wrong = love.audio.newSource("entities/player/voicelines/horriblywrong.mp3", "stream")
 
-local function reset(self, dt)
+local original_substance = {
+    substance_sprite = Sprite.new("entities/substance/substance.png", 1, 0),
+
+    substance_positions = {},
+
+    ox = 0,
+    oy = 0,
+    merge_dist = 50,
+
+    sent_message = false,
+}
+
+function original_substance:reset(dt)
     Game.camera_scale = math.lerp(Game.camera_scale, 1, 10 * dt)
     if Game.camera_scale <= 1.05 and not self.sent_message then
         logger.log_message("You can now extract substance")
@@ -16,7 +28,7 @@ local function reset(self, dt)
     end
 end
 
-local function absorb(self, dt)
+function original_substance:absorb(dt)
     for i = #self.substance_positions, 1, -1 do
         local v = self.substance_positions[i]
 
@@ -48,7 +60,7 @@ local function absorb(self, dt)
     end
 end
 
-local function default(self, dt) 
+function original_substance:default(dt) 
     local dist = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
         
     local target_ox = 0
@@ -81,51 +93,41 @@ local function default(self, dt)
     end
 end
 
-Objects.create_type("OriginalSubstance", {
-    substance_sprite = Sprite.new("entities/substance/substance.png", 1, 0),
+function original_substance:on_create()
+    self.substance_sprite.centered = false
+    self.substance_sprite.offset_x = self.substance_sprite.texture:getWidth() / 2
+    self.substance_sprite.offset_y = self.substance_sprite.texture:getHeight() / 2
 
-    substance_positions = {},
+    self.player = Objects.grab("Player")
+    self.camera = Objects.grab("Camera")
 
-    ox = 0,
-    oy = 0,
-    merge_dist = 50,
-
-    sent_message = false,
-
-    state = default,
-
-    on_create = function(self)
-        self.substance_sprite.centered = false
-        self.substance_sprite.offset_x = self.substance_sprite.texture:getWidth() / 2
-        self.substance_sprite.offset_y = self.substance_sprite.texture:getHeight() / 2
-
-        self.player = Objects.grab("Player")
-        self.camera = Objects.grab("Camera")
-
-        for i = 1, 30 do
-            local x, y = Vector.rotated(1, 0, love.math.random(math.pi * 2))
-            x = x * love.math.random(10)
-            y = y * love.math.random(10)
-            table.insert(self.substance_positions, {
-                x = x, y = y,
-                dx = x, dy = y,
-                speed = love.math.random(20, 40),
-                r = love.math.random(math.pi * 2)
-            })
-        end
-    end,
-
-    on_update = function(self, dt)
-        self:state(dt)
-        self.depth = self.y + 16
-    end,
-
-    on_draw = function(self)
-        love.graphics.setBlendMode("add")
-        for _, v in ipairs(self.substance_positions) do
-            self.substance_sprite.rotation = v.r
-            self.substance_sprite:draw(self.x + v.x + self.ox, self.y + v.y + self.oy)
-        end
-        love.graphics.setBlendMode("alpha")
+    for i = 1, 30 do
+        local x, y = Vector.rotated(1, 0, love.math.random(math.pi * 2))
+        x = x * love.math.random(10)
+        y = y * love.math.random(10)
+        table.insert(self.substance_positions, {
+            x = x, y = y,
+            dx = x, dy = y,
+            speed = love.math.random(20, 40),
+            r = love.math.random(math.pi * 2)
+        })
     end
-})
+
+    state = self.default
+end
+
+function original_substance:on_update(dt)
+    self:state(dt)
+    self.depth = self.y + 16
+end
+
+function original_substance:on_draw()
+    love.graphics.setBlendMode("add")
+    for _, v in ipairs(self.substance_positions) do
+        self.substance_sprite.rotation = v.r
+        self.substance_sprite:draw(self.x + v.x + self.ox, self.y + v.y + self.oy)
+    end
+    love.graphics.setBlendMode("alpha")
+end
+
+Objects.create_type("OriginalSubstance", original_substance)

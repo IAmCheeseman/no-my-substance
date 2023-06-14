@@ -1,4 +1,15 @@
-local function dissapate(self, dt)
+local substance = {
+    substance_sprite = Sprite.new("entities/substance/substance.png", 1, 0),
+
+    substance_positions = {},
+
+    speed = 0,
+    accel = 100,
+
+    circle_radius = 5,
+}
+
+function substance:dissapate(dt)
     for i = #self.substance_positions, 1, -1 do
         local v = self.substance_positions[i]
 
@@ -24,7 +35,7 @@ local function dissapate(self, dt)
     end
 end
 
-local function default(self, dt)
+function substance:default(dt)
     for _, v in ipairs(self.substance_positions) do
         local vx, vy = Vector.normalized(v.dx, v.dy)
         v.x = v.x + vx * v.speed * dt
@@ -43,7 +54,7 @@ local function default(self, dt)
     local dist = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
 
     if dist < 10 then
-        self.state = dissapate
+        self.state = self.dissapate
     end
 
     self.x = self.x + dir_x * self.speed * dt
@@ -52,53 +63,41 @@ local function default(self, dt)
     self.speed = self.speed + self.accel * dt
 end
 
+function substance:on_create()
+    self.substance_sprite.centered = false
+    self.substance_sprite.offset_x = self.substance_sprite.texture:getWidth() / 2
+    self.substance_sprite.offset_y = self.substance_sprite.texture:getHeight() / 2
 
-Objects.create_type("Substance", {
-    substance_sprite = Sprite.new("entities/substance/substance.png", 1, 0),
+    self.player = Objects.grab("Player")
 
-    substance_positions = {},
-
-    speed = 0,
-    accel = 100,
-
-    circle_radius = 5,
-
-    sent_message = false,
-
-    state = default,
-
-    on_create = function(self)
-        self.substance_sprite.centered = false
-        self.substance_sprite.offset_x = self.substance_sprite.texture:getWidth() / 2
-        self.substance_sprite.offset_y = self.substance_sprite.texture:getHeight() / 2
-
-        self.player = Objects.grab("Player")
-
-        for i = 1, self.circle_radius * 2 do
-            local x, y = Vector.rotated(1, 0, love.math.random(math.pi * 2))
-            x = x * love.math.random(self.circle_radius)
-            y = y * love.math.random(self.circle_radius)
-            table.insert(self.substance_positions, {
-                x = x, y = y,
-                dx = x, dy = y,
-                speed = love.math.random(20, 40),
-                r = love.math.random(math.pi * 2)
-            })
-        end
-    end,
-
-    on_update = function(self, dt)
-        self:state(dt)
-
-        self.depth = self.y + 16
-    end,
-
-    on_draw = function(self)
-        love.graphics.setBlendMode("add")
-        for _, v in ipairs(self.substance_positions) do
-            self.substance_sprite.rotation = v.r
-            self.substance_sprite:draw(self.x + v.x, self.y + v.y)
-        end
-        love.graphics.setBlendMode("alpha")
+    for i = 1, self.circle_radius * 2 do
+        local x, y = Vector.rotated(1, 0, love.math.random(math.pi * 2))
+        x = x * love.math.random(self.circle_radius)
+        y = y * love.math.random(self.circle_radius)
+        table.insert(self.substance_positions, {
+            x = x, y = y,
+            dx = x, dy = y,
+            speed = love.math.random(20, 40),
+            r = love.math.random(math.pi * 2)
+        })
     end
-})
+
+    self.state = self.default
+end
+
+function substance:on_update(dt)
+    self:state(dt)
+
+    self.depth = self.y + 16
+end
+
+function substance:on_draw()
+    love.graphics.setBlendMode("add")
+    for _, v in ipairs(self.substance_positions) do
+        self.substance_sprite.rotation = v.r
+        self.substance_sprite:draw(self.x + v.x, self.y + v.y)
+    end
+    love.graphics.setBlendMode("alpha")
+end
+
+Objects.create_type("Substance", substance)

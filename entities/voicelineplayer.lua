@@ -34,43 +34,46 @@ function module.play_line(audio, priority, speaker, subtitle)
 end
 
 if not Objects.does_type_exist("VoiceLinePlayer") then
-    Objects.create_type("VoiceLinePlayer", {
+    local voice_line_player = {
         persistent = true,
 
         subtitles = true,
+    }
 
-        on_update = function(self, dt)
-            for k, v in pairs(current) do
-                if not v.audio:isPlaying() then
-                    current[k] = nil
-                end
-            end
-        end,
-
-        on_gui = function(self)
-            if not self.subtitles then
-                return
-            end
-            local line = nil
-            local i = 1
-            for _, v in pairs(current) do
-                local x, y = 0, 170 - ((i - 1) * 8)
-
-                if v.subtitled then
-                    love.graphics.setFont(gui.font)
-                    local width, height = gui.font:getWidth(v.subtitle) + 5, gui.font:getHeight(v.subtitle)
-                    local bgx, bgy = 320 / 2 - width / 2, y
-
-                    love.graphics.setColor(0, 0, 0, 1)
-                    love.graphics.rectangle("fill", bgx, bgy, width, height)
-                    love.graphics.setColor(1, 1, 1, 1)
-                    love.graphics.printf(v.subtitle, x, y, 320, "center")
-                end
-
-                i = i + 1
+    function voice_line_player:on_update(dt)
+        for k, v in pairs(current) do
+            if not v.audio:isPlaying() then
+                current[k] = nil
             end
         end
-    })
+    end
+
+    function voice_line_player:on_gui()
+        if not self.subtitles then
+            return
+        end
+        local line = nil
+        local i = 1
+        for _, v in pairs(current) do
+            local x, y = 0, 170 - ((i - 1) * 8)
+
+            if v.subtitled then
+                love.graphics.setFont(gui.font)
+                local width, height = gui.font:getWidth(v.subtitle) + 5, gui.font:getHeight(v.subtitle)
+                local bgx, bgy = 320 / 2 - width / 2, y
+
+                love.graphics.setColor(0, 0, 0, 1)
+                love.graphics.rectangle("fill", bgx, bgy, width, height)
+                love.graphics.setColor(1, 1, 1, 1)
+                love.graphics.printf(v.subtitle, x, y, 320, "center")
+            end
+
+            i = i + 1
+        end
+    end
+
+
+    Objects.create_type("VoiceLinePlayer", voice_line_player)
 
     Objects.instance("VoiceLinePlayer")
 end

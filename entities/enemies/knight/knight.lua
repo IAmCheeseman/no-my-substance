@@ -11,7 +11,21 @@ local hurt_sounds = {
 local death = love.audio.newSource("entities/enemies/nooo.mp3", "stream")
 local substance_death = love.audio.newSource("entities/enemies/nomysubstance.mp3", "stream")
 
-local function flee(self, dt)
+local knight = {
+    sprite = Sprite.new("entities/enemies/knight/knight.png", 7, 10),
+    corpse_sprite = Sprite.new("entities/enemies/knight/knightcorpse.png", 1, 0),
+    idle_animation = Sprite.new_animation(1, 3, 10),
+    walk_animation = Sprite.new_animation(4, 6, 10),
+    attack_animation = Sprite.new_animation(7, 7, 0),
+
+    health = 7,
+
+    speed = 90,
+    flee_speed = 180,
+    accel = 3,
+}
+
+function knight:flee(dt)
     self.sprite:apply_animation(self.walk_animation)
 
     local dir_x, dir_y = Vector.direction_between(self.x, self.y, self.target.x, self.target.y)
@@ -24,7 +38,7 @@ local function flee(self, dt)
     collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
 end
 
-local function attack(self, dt)
+function knight:attack(dt)
     self.sprite:apply_animation(self.attack_animation)
 
     self.vel_x = math.lerp(self.vel_x, 0, self.accel * dt)
@@ -33,7 +47,7 @@ local function attack(self, dt)
     collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
 end
 
-local function charge(self, dt)
+function knight:charge(dt)
     self.sprite:apply_animation(self.walk_animation)
 
     local dir_x, dir_y = Vector.direction_between(self.x, self.y, self.target.x, self.target.y)--Room.get_path("Solids", self.x, self.y, self.player.x, self.player.y)
@@ -47,79 +61,68 @@ local function charge(self, dt)
 
     local dist_to_player = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
     if dist_to_player < 32 then
-        self.state = attack
+        self.state = self.attack
         self.timers.attack:start()
     end
 end
 
-local function default(self, dt)
+function knight:default(dt)
     local dist_to_player = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
     if dist_to_player < 190 then
-        self.state = charge
+        self.state = self.charge
     end
 end
 
-
-Objects.create_type_from("Knight", "Enemy", {
-    sprite = Sprite.new("entities/enemies/knight/knight.png", 7, 10),
-    corpse_sprite = Sprite.new("entities/enemies/knight/knightcorpse.png", 1, 0),
-    idle_animation = Sprite.new_animation(1, 3, 10),
-    walk_animation = Sprite.new_animation(4, 6, 10),
-    attack_animation = Sprite.new_animation(7, 7, 0),
-
-    health = 7,
-
-    speed = 90,
-    flee_speed = 180,
-    accel = 3,
-
-    state = default,
-
-    on_attack_over = function(self)
-        if self.state == default then
-            return
-        end
-        self.sword:swing()
-        self.state = flee
-        self.timers.flee:start()
-    end,
-    on_flee_over = function(self)
-        if self.state == default then
-            return
-        end
-        self.state = charge
-    end,
-
-    on_create = function(self)
-        self.sprite:apply_animation(self.idle_animation)
-        self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
-
-        self:create_timer("attack", self.on_attack_over, 0.5)
-        self:create_timer("flee", self.on_flee_over, 0.5)
-
-        self:call_from_base("on_create")
-
-        self.sword = Objects.instance_at("KnightSword", self.x, self.y)
-        self.sword.target = self
-    end,
-    on_update = function(self, dt)
-        self:call_from_base("on_update", dt)
-        self:state(dt)
-    end,
-
-    on_death = function(self)
-        Objects.destroy(self.sword)
-        
-        if love.math.random() < 0.2 then
-            local death_sfx = substance.unlocked and substance_death or death
-            local subtitle = substance.unlocked and "NOOO! MY SUBSTANCE!" or "NOOO!"
-            voiceline.play_line(death_sfx, 0, "Knight", subtitle)
-        end
-    end,
-
-    on_hurt = function(self)
-        if love.math.random() < 0.5 then
-            hurt_sounds[love.math.random(1, #hurt_sounds)]:play()
-        end
+function knight:on_attack_over()
+    if self.state == self.default then
+        return
     end
-})
+    self.sword:swing()
+    self.state = self.flee
+    self.timers.flee:start()
+end
+
+function knight:on_flee_over()
+    if self.state == self.default then
+        return
+    end
+    self.state = self.charge
+end
+
+function knight:on_create()
+    self.sprite:apply_animation(self.idle_animation)
+    self.sprite.offset_y = math.floor(self.sprite.texture:getHeight() / 2)
+
+    self:create_timer("attack", self.on_attack_over, 0.5)
+    self:create_timer("flee", self.on_flee_over, 0.5)
+
+    self:call_from_base("on_create")
+
+    self.sword = Objects.instance_at("KnightSword", self.x, self.y)
+    self.sword.target = self
+
+    self.state = self.default
+end
+
+function knight:on_update(dt)
+    self:call_from_base("on_update", dt)
+    self:state(dt)
+end
+
+function knight:on_death()
+    Objects.destroy(self.sword)
+    
+    if love.math.random() < 0.2 then
+        local death_sfx = substance.unlocked and substance_death or death
+        local subtitle = substance.unlocked and "NOOO! MY SUBSTANCE!" or "NOOO!"
+        voiceline.play_line(death_sfx, 0, "Knight", subtitle)
+    end
+end
+
+function knight:on_hurt()
+    if love.math.random() < 0.5 then
+        hurt_sounds[love.math.random(1, #hurt_sounds)]:play()
+    end
+end
+
+Objects.create_type_from("Knight", "Enemy", knight)
