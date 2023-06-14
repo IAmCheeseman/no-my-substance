@@ -2,7 +2,13 @@ local mangler_spawner = {
     rate = 3,
 }
 
-function mangler_spawner:get_mangler_position()
+function mangler_spawner:get_mangler_position(tries)
+    tries = tries or 0
+
+    if tries > 100 then
+        return nil, nil
+    end
+
     local x, y = self.player.x, self.player.y
     local dist = love.math.random(64, 100)
     local rot = love.math.random(math.pi * 2)
@@ -11,7 +17,7 @@ function mangler_spawner:get_mangler_position()
     y = y + math.sin(rot) * dist
 
     if Room.get_cell("Solids", x, y) ~= 2 then
-        return self:get_mangler_position()
+        return self:get_mangler_position(tries + 1)
     end
 
     return x, y
@@ -21,6 +27,9 @@ function mangler_spawner:spawn_mangler()
     self.timers.spawn_mangler:start()
 
     local x, y = self:get_mangler_position()
+    if x == nil and y == nil then
+        return
+    end
     Objects.instance_at("Mangler", x, y)
 end
 
