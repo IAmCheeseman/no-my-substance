@@ -3,18 +3,15 @@ local collision = require "entities.collide"
 local arrow = {
     sprite = Sprite.new("entities/enemies/archer/arrow.png", 1, 0),
 
-    dir_x = 0,
-    dir_y = 0,
     speed = 300,
 }
 
 function arrow:on_create()
-    self.sprite.rotation = Vector.angle(self.dir_x, self.dir_y)
     self.sprite.centered = false
-
+    
     self.sprite.offset_y = self.sprite.texture:getHeight() / 2
     self.sprite.offset_x = self.sprite.texture:getWidth() / 2
-
+    
     self.player = Objects.grab("Player")
 end
 
@@ -22,12 +19,17 @@ function arrow:on_update(dt)
     if collision.would_collide(self, "Solids", self.dir_x, self.dir_y, { 0, 2, 3 }) then
         Objects.destroy(self)
     end
+    
+    self.sprite.rotation = Vector.angle(self.dir_x, self.dir_y)
 
-    local dist = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
-    if dist < 12 then
-        self.player:take_damage(2.5, self.dir_x, self.dir_y)
-        Objects.destroy(self)
-    end
+    Objects.with(self.collide_with, function(other)
+        local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
+        if dist < 12 then
+            other:take_damage(2.5, self.dir_x, self.dir_y)
+            Objects.destroy(self)
+        end
+    end)
+    
 
     self.x = self.x + self.dir_x * self.speed * dt
     self.y = self.y + self.dir_y * self.speed * dt
@@ -44,4 +46,4 @@ function arrow:on_draw()
 end
 
 
-Objects.create_type("ArcherArrow", arrow)
+Objects.create_type_from("ArcherArrow", "Projectile", arrow)

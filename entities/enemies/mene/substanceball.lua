@@ -10,9 +10,6 @@ local substance_ball = {
 
     damage = 4,
 
-    vel_x = 0,
-    vel_y = 0,
-
     circle_radius = 10,
 }
 
@@ -60,20 +57,20 @@ function substance_ball:default(dt)
     local dir_x, dir_y = Vector.direction_between(self.x, self.y, self.player.x, self.player.y)
     local dist = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
 
-    self.vel_x = math.lerp(self.vel_x, dir_x * self.speed, self.accel * dt)
-    self.vel_y = math.lerp(self.vel_y, dir_y * self.speed, self.accel * dt)
+    self.dir_x = math.lerp(self.dir_x, dir_x * self.speed, self.accel * dt)
+    self.dir_y = math.lerp(self.dir_y, dir_y * self.speed, self.accel * dt)
 
     if dist < 10 then
         self.player:take_damage(self.damage, dir_x, dir_y)
         self.state = self.dissapate
     end
 
-    if collision.would_collide(self, "Solids", self.vel_x * dt, self.vel_y * dt, { 0, 2, 3 }) then
+    if collision.would_collide(self, "Solids", self.dir_x * dt, self.dir_y * dt, { 0, 2, 3 }) then
         self.state = self.dissapate
     end
 
-    self.x = self.x + self.vel_x * dt
-    self.y = self.y + self.vel_y * dt
+    self.x = self.x + self.dir_x * dt
+    self.y = self.y + self.dir_y * dt
 end
 
 function substance_ball:on_create()
@@ -115,4 +112,4 @@ function substance_ball:on_draw()
     love.graphics.setBlendMode("alpha")
 end
 
-Objects.create_type("SubstanceBall", substance_ball)
+Objects.create_type_from("SubstanceBall", "Projectile", substance_ball)

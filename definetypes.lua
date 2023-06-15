@@ -10,9 +10,11 @@ local excluded_files = {
     "/definetypes.lua",
     "/entities/enemies/enemy.lua",
     "/world/swayingprop.lua",
+    "/entities/projectile.lua",
 }
 
 require "entities.enemies.enemy"
+require "entities.projectile"
 require "world.swayingprop"
 
 local function is_excluded(dir, exclude_list)

@@ -47,6 +47,30 @@ function hand_swipe:on_create()
             hit:play()
         end
     end)
+
+    Objects.with("Projectile", function(other)
+        if self.hit[other] ~= nil then
+            return
+        end
+
+        local de_x, de_y = Vector.direction_between(self.x, self.y, other.x, other.y)
+        local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
+        local dot = Vector.dot(dir_x, dir_y, de_x, de_y)
+        if dot > 0 and dist < 50 then
+            local damage = self.damage
+            if substance.active then
+                damage = self.substance_damage
+            end
+
+            other.dir_x = -other.dir_x * 1.3
+            other.dir_y = -other.dir_y * 1.3
+            other.collides_with = "Enemy"
+
+            self.hit[other] = 0
+
+            hit:play()
+        end
+    end)
 end
 
 function hand_swipe:on_update(dt)
