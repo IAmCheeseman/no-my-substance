@@ -2,6 +2,7 @@ local substace = require "substance"
 local logger = require "gui.log"
 
 godmode = false
+clip = false
 player_invisible = false
 
 local function is_key_valid(command, key, commands)
@@ -132,6 +133,11 @@ Objects.create_type("CommandExecutor", {
                 return
             end
             logger.log_message("Type " .. type_name .. " does not exist.")
+        end,
+        ["clip"] = function(self)
+            clip = not clip
+
+            logger.log_message("Noclip " .. (clip and "enabled" or "disabled"))
         end
     },
 

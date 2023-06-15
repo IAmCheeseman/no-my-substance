@@ -93,7 +93,12 @@ function player:default(dt)
     self.vel_x = math.lerp(self.vel_x, input_x * speed, accel_delta * dt)
     self.vel_y = math.lerp(self.vel_y, input_y * speed, accel_delta * dt)
 
-    collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
+    if not clip then
+        collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
+    else
+        self.x = self.x + self.vel_x * dt
+        self.y = self.y + self.vel_y * dt
+    end
 
     if love.keyboard.isDown("space") and self.timers.roll_cooldown.is_over then
         self.vel_x = input_x * self.roll_speed
