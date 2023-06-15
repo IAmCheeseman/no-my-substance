@@ -13,7 +13,7 @@ local substance_death = love.audio.newSource("entities/enemies/nomysubstance.mp3
 
 local mene = {
     sprite = Sprite.new("entities/enemies/mene/mene.png", 9, 10),
-    corpse_sprite = Sprite.new("entities/enemies/knight/knightcorpse.png", 1, 0),
+    corpse_sprite = Sprite.new("entities/enemies/mene/menecorpse.png", 1, 0),
     idle_animation = Sprite.new_animation(1, 7, 10),
     walk_animation = Sprite.new_animation(1, 7, 10),
     attack_animation = Sprite.new_animation(8, 9, 10),
