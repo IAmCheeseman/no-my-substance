@@ -115,7 +115,7 @@ end
 
 function player:take_damage(damage, kb_x, kb_y)
     if not self.timers.iframes.is_over or self.state == self.roll or godmode then
-        return
+        return false
     end
 
     local total_damage = damage
@@ -135,6 +135,8 @@ function player:take_damage(damage, kb_x, kb_y)
     self.vel_y = self.vel_y + kb_y * self.kb_strength
 
     self.timers.iframes:start()
+
+    return true
 end
 
 function player:stop_roll()

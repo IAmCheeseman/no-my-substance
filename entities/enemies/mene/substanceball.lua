@@ -61,8 +61,9 @@ function substance_ball:default(dt)
     self.dir_y = math.lerp(self.dir_y, dir_y * self.speed, self.accel * dt)
 
     if dist < 10 then
-        self.player:take_damage(self.damage, dir_x, dir_y)
-        self.state = self.dissapate
+        if self.player:take_damage(self.damage, dir_x, dir_y) then
+            self.state = self.dissapate
+        end
     end
 
     if collision.would_collide(self, "Solids", self.dir_x * dt, self.dir_y * dt, { 0, 2, 3 }) then

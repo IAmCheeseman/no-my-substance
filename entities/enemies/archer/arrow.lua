@@ -25,8 +25,9 @@ function arrow:on_update(dt)
     Objects.with(self.collide_with, function(other)
         local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
         if dist < 12 then
-            other:take_damage(2.5, self.dir_x, self.dir_y)
-            Objects.destroy(self)
+            if other:take_damage(2.5, self.dir_x, self.dir_y) then
+                Objects.destroy(self)
+            end
         end
     end)
     

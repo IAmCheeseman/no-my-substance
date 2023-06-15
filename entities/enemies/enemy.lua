@@ -66,6 +66,8 @@ function enemy:take_damage(damage, kb_x, kb_y)
     if self.on_hurt then
         self:on_hurt()
     end
+
+    return true
 end
 
 function enemy:on_create()
