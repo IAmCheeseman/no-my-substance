@@ -8,6 +8,8 @@ local substance_ball = {
     speed = 140,
     accel = 4,
 
+    damage = 4,
+
     vel_x = 0,
     vel_y = 0,
 
@@ -62,7 +64,7 @@ function substance_ball:default(dt)
     self.vel_y = math.lerp(self.vel_y, dir_y * self.speed, self.accel * dt)
 
     if dist < 10 then
-        self.player:take_damage(4, dir_x, dir_y)
+        self.player:take_damage(self.damage, dir_x, dir_y)
         self.state = self.dissapate
     end
 
@@ -79,9 +81,11 @@ function substance_ball:on_create()
     self.substance_sprite.offset_x = self.substance_sprite.texture:getWidth() / 2
     self.substance_sprite.offset_y = self.substance_sprite.texture:getHeight() / 2
 
+    self.circle_radius = self.damage * 2
+
     self.player = Objects.grab("Player")
 
-    for i = 1, self.circle_radius * 2 do
+    for i = 1, self.circle_radius * 3 do
         local x, y = Vector.rotated(1, 0, love.math.random(math.pi * 2))
         x = x * love.math.random(self.circle_radius)
         y = y * love.math.random(self.circle_radius)
