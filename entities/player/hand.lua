@@ -5,6 +5,9 @@ local hand = {
     idle_animation = Sprite.new_animation(1, 1, 0),
     swing_animation = Sprite.new_animation(2, 6, 20),
     target = nil,
+
+    cooldown = 0.5,
+    substance_cooldown = 0.3,
 }
 
 function hand:on_create()
@@ -44,7 +47,7 @@ function hand:on_mouse_press(_, _, button, _, _)
         
         local swipe = Objects.instance_at("HandSwipe", self.x, self.y)
 
-        self.timers.cooldown:start()
+        self.timers.cooldown:start(substance.active and self.substance_cooldown or self.cooldown)
 
         self.visible = true
         
