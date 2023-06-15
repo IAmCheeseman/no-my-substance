@@ -66,6 +66,7 @@ function player:roll(dt)
     self.sprite:apply_animation(self.rolling_animation)
     -- self.sprite.rotation = (self.timers.stop_roll.time / self.timers.stop_roll.total_time) * math.pi * 2
 
+    Objects.instance_at("Poof", self.x + 8, self.y)
     collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
 end
 
