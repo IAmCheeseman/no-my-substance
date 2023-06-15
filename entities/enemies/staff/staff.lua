@@ -3,6 +3,7 @@ local staff = {
     light = Sprite.new("entities/enemies/staff/stafflight.png", 1, 0),
 
     light_strength = 0,
+    damage_flash_shader = love.graphics.newShader("entities/damageflash.fs"),
 
     shots = 0,
 }
@@ -10,6 +11,7 @@ local staff = {
 function staff:on_create()
     self:create_timer("shoot", self.start_shoot, self.shoot_cooldown)
     self:create_timer("charge_up", self.shoot, self.windup_time)
+    self:create_timer("flash", nil, 0.1)
 
     self.timers.shoot:start()
 
@@ -28,6 +30,8 @@ function staff:shoot()
         self.timers.shoot:start()
         self.shots = self.shots + 1
     end
+
+    self.timers.flash:start()
 
     local ball = Objects.instance_at("SubstanceBall", self.x, self.y)
     ball.damage = self.damage
@@ -55,13 +59,18 @@ function staff:on_draw()
     self.shadow.rotation = self.sprite.rotation
     self.shadow.frame = self.sprite.frame
 
+    
     love.graphics.setColor(0, 0, 0, 0.5)
     self.shadow:draw(self.x, self.y)
     love.graphics.setColor(1, 1, 1, 1)
+    
+    love.graphics.setShader(self.damage_flash_shader)
+    self.damage_flash_shader:send("is_on", self.timers.flash.time < 0 and 0 or 1)
     self.sprite:draw(self.x, self.y)
+    love.graphics.setShader()
 
     love.graphics.setBlendMode("add")
-    love.graphics.setColor(1, 1, 1, self.light_strength / 2)
+    love.graphics.setColor(1, 1, 1, self.light_strength)
     self.light:draw(self.x, self.y)
     love.graphics.setBlendMode("alpha")
 end
