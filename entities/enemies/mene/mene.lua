@@ -90,6 +90,8 @@ end
 function mene:default(dt)
     local dist_to_player = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
     if dist_to_player < 190 then
+        self.vel_x = 0
+        self.vel_y = 0
         self.state = self.charge
     end
 end
