@@ -8,14 +8,7 @@ local excluded_files = {
     "/main.lua",
     "/conf.lua",
     "/definetypes.lua",
-    "/entities/enemies/enemy.lua",
-    "/world/swayingprop.lua",
-    "/entities/projectile.lua",
 }
-
-require "entities.enemies.enemy"
-require "entities.projectile"
-require "world.swayingprop"
 
 local function is_excluded(dir, exclude_list)
     for i, v in ipairs(exclude_list) do
@@ -45,4 +38,4 @@ local function recurse_and_require(path)
 end
 
 recurse_and_require("")
-
+Objects.define_types()

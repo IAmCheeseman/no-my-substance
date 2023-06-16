@@ -49,4 +49,4 @@ end
 
 Objects.create_type("MusicManager", music_manager)
 
-Objects.instance("MusicManager")
+Objects.initial_object("MusicManager")

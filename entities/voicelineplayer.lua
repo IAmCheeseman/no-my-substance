@@ -75,7 +75,7 @@ if not Objects.does_type_exist("VoiceLinePlayer") then
 
     Objects.create_type("VoiceLinePlayer", voice_line_player)
 
-    Objects.instance("VoiceLinePlayer")
+    Objects.initial_object("VoiceLinePlayer")
 end
 
 return module

@@ -166,4 +166,4 @@ Objects.create_type("CommandExecutor", {
     end
 })
 
-Objects.instance("CommandExecutor")
+Objects.initial_object("CommandExecutor")

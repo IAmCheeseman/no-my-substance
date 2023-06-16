@@ -64,8 +64,7 @@ if not Objects.does_type_exist("BloodManager") then
     end
 
     Objects.create_type("BloodManager", blood_managero)
-
-    Objects.instance("BloodManager")
+    Objects.initial_object("BloodManager")
 end
 
 return module

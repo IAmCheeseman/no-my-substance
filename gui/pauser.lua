@@ -103,4 +103,4 @@ function pauser:on_key_press(key, _, is_repeat)
 end
 
 Objects.create_type("Pauser", pauser)
-Objects.instance("Pauser")
+Objects.initial_object("Pauser")

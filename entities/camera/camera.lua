@@ -110,4 +110,4 @@ function camera:shake(
 end
 
 Objects.create_type("Camera", camera)
-Objects.instance("Camera")
+Objects.initial_object("Camera")

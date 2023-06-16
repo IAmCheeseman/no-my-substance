@@ -62,7 +62,7 @@ if not Objects.does_type_exist("Logger") then
 
     Objects.create_type("Logger", loggero)
 
-    Objects.instance("Logger")
+    Objects.initial_object("Logger")
 end
 
 return module

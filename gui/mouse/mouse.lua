@@ -15,4 +15,4 @@ end
 
 Objects.create_type("Mouse", mouse)
 
-Objects.instance("Mouse")
+Objects.initial_object("Mouse")
