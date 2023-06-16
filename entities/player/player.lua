@@ -120,9 +120,9 @@ function player:take_damage(damage, kb_x, kb_y)
     end
 
     local total_damage = damage
-    if substance.active then
-        total_damage = total_damage * 1.5
-    end
+    -- if substance.active then
+    --     total_damage = total_damage
+    -- end
 
     self.health = self.health - total_damage
 
