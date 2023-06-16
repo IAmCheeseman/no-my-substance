@@ -10,9 +10,9 @@ local substance_sprite = Sprite.new("entities/player/playersubstancized.png", 9,
 
 local level_start_lines = {
     [1] = {
-        line = redo_spray_tan, 
-        priority = 0, 
-        speaker = "Chris", 
+        line = redo_spray_tan,
+        priority = 0,
+        speaker = "Chris",
         subtitle = "Man... I gotta redo my spray tan."
     }
 }
@@ -106,12 +106,20 @@ function player:default(dt)
         self.vel_y = input_y * self.roll_speed
 
         self.timers.stop_roll:start()
+        self.timers.flicker:start()
         self.state = self.roll
     end
 end
 
 function player:start_substance()
     self.timers.substance:start()
+    Objects.instance_at("Poof", self.x + 8, self.y)
+    self.timers.flicker:start()
+end
+
+function player:on_substance_end()
+    Objects.instance_at("Poof", self.x + 8, self.y)
+    self.timers.flicker:start()
 end
 
 function player:take_damage(damage, kb_x, kb_y)
@@ -166,7 +174,8 @@ function player:on_create()
     self:create_timer("stop_roll", self.stop_roll, 0.3)
     self:create_timer("roll_cooldown", nil, 0.75)
     self:create_timer("iframes", nil, 0.2)
-    self:create_timer("substance", nil, substance.time)
+    self:create_timer("substance", self.on_substance_end, substance.time)
+    self:create_timer("flicker", nil, 0.15)
 
     self.hand = Objects.instance_at("Hand", self.x, self.y)
     self.gun = Objects.instance_at("Gun", self.x, self.y)
@@ -218,7 +227,7 @@ function player:on_draw()
     love.graphics.setColor(1, 1, 1, 1)
 
     love.graphics.setShader(self.damage_flash_shader)
-    self.damage_flash_shader:send("is_on", self.timers.iframes.time < 0 and 0 or 1)
+    self.damage_flash_shader:send("is_on", (self.timers.iframes.time < 0 and self.timers.flicker.time < 0) and 0 or 1)
     self.sprite:draw(self.x, self.y)
     love.graphics.setShader()
 end
@@ -246,11 +255,9 @@ function player:on_gui()
     -- Health
     gui.bar(5, 5, 100, 10, { 0.06, 0.07, 0.12 }, { 1, 1, 1 }, self.health_bar_recent_value)
     gui.bar(5, 5, 100, 10, { 0, 0, 0, 0 }, { 0.64, 0.18, 0.18 }, self.health_bar_value)
-    
     love.graphics.setFont(gui.font)
     love.graphics.setColor(0, 0, 0, 0.5)
     love.graphics.print(math.floor(self.health / self.max_health * 100) .. "%", 7, 5)
-    
     -- Substance
     if substance.unlocked or substance.active then
         gui.bar(5, 14, 50, 5, { 0.06, 0.07, 0.12 }, { 0, 1, 1 }, substance.amount / substance.max)
@@ -273,7 +280,6 @@ function player:on_gui()
     -- Death screen
     if self.state == self.dead then
         love.graphics.setFont(gui.font)
-        
         love.graphics.setColor(0, 0, 0, 1)
         local half_height = 180 / 2
         local third_width = 321 / 3
