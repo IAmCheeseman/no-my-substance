@@ -74,7 +74,6 @@ if not Objects.does_type_exist("VoiceLinePlayer") then
 
 
     Objects.create_type("VoiceLinePlayer", voice_line_player)
-
     Objects.initial_object("VoiceLinePlayer")
 end
 
