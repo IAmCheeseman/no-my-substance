@@ -10,9 +10,9 @@ local substance_sprite = Sprite.new("entities/player/playersubstancized.png", 9,
 
 local level_start_lines = {
     [1] = {
-        line = redo_spray_tan,
-        priority = 0,
-        speaker = "Chris",
+        line = redo_spray_tan, 
+        priority = 0, 
+        speaker = "Chris", 
         subtitle = "Man... I gotta redo my spray tan."
     }
 }
@@ -255,9 +255,11 @@ function player:on_gui()
     -- Health
     gui.bar(5, 5, 100, 10, { 0.06, 0.07, 0.12 }, { 1, 1, 1 }, self.health_bar_recent_value)
     gui.bar(5, 5, 100, 10, { 0, 0, 0, 0 }, { 0.64, 0.18, 0.18 }, self.health_bar_value)
+
     love.graphics.setFont(gui.font)
     love.graphics.setColor(0, 0, 0, 0.5)
     love.graphics.print(math.floor(self.health / self.max_health * 100) .. "%", 7, 5)
+
     -- Substance
     if substance.unlocked or substance.active then
         gui.bar(5, 14, 50, 5, { 0.06, 0.07, 0.12 }, { 0, 1, 1 }, substance.amount / substance.max)
@@ -280,6 +282,7 @@ function player:on_gui()
     -- Death screen
     if self.state == self.dead then
         love.graphics.setFont(gui.font)
+
         love.graphics.setColor(0, 0, 0, 1)
         local half_height = 180 / 2
         local third_width = 321 / 3
