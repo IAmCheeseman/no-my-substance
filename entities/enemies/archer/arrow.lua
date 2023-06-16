@@ -3,7 +3,7 @@ local collision = require "entities.collide"
 local arrow = {
     sprite = Sprite.new("entities/enemies/archer/arrow.png", 1, 0),
 
-    speed = 300,
+    speed = 200,
 }
 
 function arrow:on_create()

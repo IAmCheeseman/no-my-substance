@@ -15,7 +15,6 @@ function bow:shoot()
 
     local arrow = Objects.instance_at("ArcherArrow", self.x, self.y)
     arrow.dir_x, arrow.dir_y = Vector.direction_between(self.x, self.y, self.player.x, self.player.y)
-    arrow.speed = 300
 end
 
 function bow:on_create()
