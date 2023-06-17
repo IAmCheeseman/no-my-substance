@@ -1,6 +1,7 @@
 
 local poof = {
-    sprite = Sprite.new("entities/poof/poof.png", 6, 10)
+    sprite = Sprite.new("entities/poof/poof.png", 6, 10),
+    color = { 1, 1, 1, 1 }
 }
 
 function poof:on_create()
@@ -16,6 +17,11 @@ function poof:on_update(dt)
     if self.sprite.frame == 6 then
         Objects.destroy(self)
     end
+end
+
+function poof:on_draw()
+    love.graphics.setColor(unpack(self.color))
+    self.sprite:draw(self.x, self.y)
 end
 
 Objects.create_type("Poof", poof)

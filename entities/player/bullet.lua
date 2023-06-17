@@ -11,6 +11,14 @@ local bullet = {
     speed = 300,
 }
 
+function bullet:destroy_with_poof()
+    local poof = Objects.instance_at("Poof", self.x + 4, self.y + 4)
+    poof.color = { 1, 1, 1, 0.5 }
+    poof.sprite.scale_x = 0.5
+    poof.sprite.scale_y = 0.5
+    Objects.destroy(self)
+end
+
 function bullet:on_create()
     self.sprite.rotation = Vector.angle(self.dir_x, self.dir_y)
     self.sprite.centered = false
@@ -22,7 +30,7 @@ end
 function bullet:on_update(dt)
     if collision.would_collide(self, "Solids", self.dir_x, self.dir_y, { 0, 2, 3 })
     or self.sprite.frame == self.sprite.frame_count then
-        Objects.destroy(self)
+        self:destroy_with_poof()
     end
 
     local count = 0
