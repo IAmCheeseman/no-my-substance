@@ -5,7 +5,7 @@ local substance = require "substance"
 
 local redo_spray_tan = love.audio.newSource("entities/player/voicelines/redospraytan.mp3", "stream")
 
-local normal_sprite = Sprite.new("entities/player/player.png", 9, 10)
+local normal_sprite = Sprite.new("entities/player/player.png", 15, 10)
 local substance_sprite = Sprite.new("entities/player/playersubstancized.png", 9, 10)
 
 local level_start_lines = {
@@ -21,8 +21,8 @@ local player = {
     sprite = normal_sprite,
     idle_animation = Sprite.new_animation(1, 3, 10),
     walking_animation = Sprite.new_animation(4, 6, 15),
-    rolling_animation = Sprite.new_animation(7, 7, 0),
-    dead_animation = Sprite.new_animation(9, 9, 0),
+    rolling_animation = Sprite.new_animation(7, 14, 0),
+    dead_animation = Sprite.new_animation(15, 15, 0),
 
     damage_flash_shader = love.graphics.newShader("entities/damageflash.fs"),
 
@@ -64,8 +64,12 @@ end
 
 function player:roll(dt)
     self.sprite:apply_animation(self.rolling_animation)
-    -- self.sprite.rotation = (self.timers.stop_roll.time / self.timers.stop_roll.total_time) * math.pi * 2
 
+    local percentage = self.timers.stop_roll.time / self.timers.stop_roll.total_time
+    local frame_count = 14 - 7
+    local frame = math.floor(frame_count * percentage)
+    self.sprite.frame = 7 + frame
+    
     Objects.instance_at("Poof", self.x + 8, self.y)
     collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
 end
