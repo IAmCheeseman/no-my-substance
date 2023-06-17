@@ -10,6 +10,9 @@ local substance_ball = {
 
     damage = 4,
 
+    dir_x = 0,
+    dir_y = 0,
+
     circle_radius = 10,
 }
 
@@ -113,4 +116,4 @@ function substance_ball:on_draw()
     love.graphics.setBlendMode("alpha")
 end
 
-Objects.create_type_from("SubstanceBall", "Projectile", substance_ball)
+Objects.create_type("SubstanceBall", substance_ball)
