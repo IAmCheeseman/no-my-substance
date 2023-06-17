@@ -4,6 +4,7 @@ local arrow = {
     sprite = Sprite.new("entities/enemies/archer/arrow.png", 1, 0),
 
     speed = 200,
+    damage = 2.5,
 
     effect_name = "",
 }
@@ -27,7 +28,7 @@ function arrow:on_update(dt)
     Objects.with(self.collide_with, function(other)
         local dist = Vector.distance_between(self.x, self.y, other.x, other.y)
         if dist < 12 then
-            if other:take_damage(2.5, self.dir_x, self.dir_y) then
+            if other:take_damage(self.damage, self.dir_x, self.dir_y) then
                 Objects.destroy(self)
             end
         end
