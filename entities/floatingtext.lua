@@ -8,6 +8,8 @@ function floating_text:on_create()
     self.text = string.upper(self.text)
 
     self.player = Objects.grab("Player")
+
+    self.depth = Room.room_height
 end
 
 function floating_text:on_draw()
