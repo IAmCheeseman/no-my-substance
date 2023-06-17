@@ -62,6 +62,13 @@ function player:dead(dt)
     collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
 end
 
+function player:spawn_particle()
+    Objects.instance_at("Poof", self.x + 8, self.y)
+    if self.state == self.roll then
+        self.timers.roll_particles:start()
+    end
+end
+
 function player:roll(dt)
     self.sprite:apply_animation(self.rolling_animation)
 
@@ -69,8 +76,7 @@ function player:roll(dt)
     local frame_count = 14 - 7
     local frame = math.floor(frame_count * percentage)
     self.sprite.frame = 7 + frame
-    
-    Objects.instance_at("Poof", self.x + 8, self.y)
+
     collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
 end
 
@@ -110,6 +116,7 @@ function player:default(dt)
         self.vel_y = input_y * self.roll_speed
 
         self.timers.stop_roll:start()
+        self.timers.roll_particles:start()
         self.timers.flicker:start()
         self.state = self.roll
     end
@@ -177,6 +184,7 @@ function player:on_create()
 
     self:create_timer("stop_roll", self.stop_roll, 0.3)
     self:create_timer("roll_cooldown", nil, 0.75)
+    self:create_timer("roll_particles", self.spawn_particle, 0.05)
     self:create_timer("iframes", nil, 0.2)
     self:create_timer("substance", self.on_substance_end, substance.time)
     self:create_timer("flicker", nil, 0.15)
