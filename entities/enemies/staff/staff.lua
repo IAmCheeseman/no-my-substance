@@ -20,6 +20,8 @@ function staff:on_create()
     self.shadow = self.sprite:copy()
 
     self.state = self.default
+
+    self.player = Objects.grab("Player")
 end
 
 function staff:shoot()
@@ -33,8 +35,10 @@ function staff:shoot()
 
     self.timers.flash:start()
 
-    local ball = Objects.instance_at("SubstanceBall", self.x, self.y)
-    ball.damage = self.damage
+    if Vector.distance_between(self.x, self.y, self.player.x, self.player.y) < 180  then
+        local ball = Objects.instance_at("SubstanceBall", self.x, self.y)
+        ball.damage = self.damage
+    end
 end
 
 function staff:charge_up(dt)
