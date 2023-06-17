@@ -86,7 +86,7 @@ Objects.create_type("CommandExecutor", {
         end,
         ["kall"] = function(self)
             Objects.with("Enemy", function(other)
-                other:take_damage(other.max_health, 0, 0)
+                other:take_damage(10000000, 0, 0)
             end)
 
             logger.log_message("Killed all enemies")
