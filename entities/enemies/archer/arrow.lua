@@ -5,11 +5,11 @@ local arrow = {
 
     speed = 200,
     damage = 2.5,
-
-    effect_name = "",
 }
 
 function arrow:on_create()
+    self:call_from_base("on_create")
+
     self.sprite.centered = false
     
     self.sprite.offset_y = self.sprite.texture:getHeight() / 2
@@ -39,12 +39,6 @@ function arrow:on_update(dt)
     self.y = self.y + self.dir_y * self.speed * dt
 
     self.depth = self.y + 100
-
-    if self.effect_name ~= "" then
-        local effect = Objects.instance_at(self.effect_name, self.x, self.y + 8)
-        effect.sprite.scale_x = 0.5
-        effect.sprite.scale_y = 0.5
-    end
 end
 
 function arrow:on_draw()

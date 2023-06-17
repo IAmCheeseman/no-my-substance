@@ -68,7 +68,9 @@ function hand_swipe:on_create()
             other.speed = other.speed * 2
             other.collide_with = "Enemy"
             other.effect_name = "Poof"
+            other.effect_interval = 0.025
             other.damage = self.damage * 2
+            other:start_effect()
 
             self.hit[other] = 0
 
