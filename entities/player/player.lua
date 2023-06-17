@@ -6,7 +6,7 @@ local substance = require "substance"
 local redo_spray_tan = love.audio.newSource("entities/player/voicelines/redospraytan.mp3", "stream")
 
 local normal_sprite = Sprite.new("entities/player/player.png", 15, 10)
-local substance_sprite = Sprite.new("entities/player/playersubstancized.png", 9, 10)
+local substance_sprite = Sprite.new("entities/player/playersubstancized.png", 15, 10)
 
 local level_start_lines = {
     [1] = {
