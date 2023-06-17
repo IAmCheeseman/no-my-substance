@@ -62,12 +62,16 @@ function hand_swipe:on_create()
                 damage = self.substance_damage
             end
 
-            other.dir_x = -other.dir_x * 1.3
-            other.dir_y = -other.dir_y * 1.3
-            other.collides_with = "Enemy"
+            mx, my = love.mouse.getPosition()
+            other.dir_x, other.dir_y = Vector.direction_between(self.x, self.y, mx, my)
+
+            other.speed = other.speed * 2
+            other.collide_with = "Enemy"
+            other.effect_name = "Poof"
 
             self.hit[other] = 0
 
+            Objects.instance_at("Poof", other.x, other.y)
             hit:play()
         end
     end)
