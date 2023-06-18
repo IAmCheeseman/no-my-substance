@@ -22,7 +22,7 @@ function projectile:spawn_effect()
         effect.sprite.scale_x = 0.5
         effect.sprite.scale_y = 0.5
 
-        if self.effect_interval then
+        if self.effect_interval and self.timers.effect then
             self.timers.effect:start(self.effect_interval)
         end
     end
