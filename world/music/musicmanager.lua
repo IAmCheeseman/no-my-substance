@@ -7,8 +7,8 @@ local music_manager = {
     current_track = nil,
     target_track = nil,
 
-    -- target_volume = 0.3,
-    target_volume = 0,
+    target_volume = 0.3,
+    -- target_volume = 0,
     current_volume = 0,
 }
 
