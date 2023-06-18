@@ -34,7 +34,6 @@ function music_manager:on_room_change(room_name)
     end
     self.target_path = filepath
 
-    print(self.start)
     if self.start == "Immediately" then
         self.change_track = true
     end
@@ -58,7 +57,7 @@ function music_manager:on_update(dt)
 
         self.current_volume = math.lerp(self.current_volume, 0, 3 * dt)
     else
-        self.current_volume = math.lerp(self.current_volume, self.target_volume, 3 * dt)
+        self.current_volume = math.lerp(self.current_volume, self.target_volume, 1 * dt)
     end
 
     if self.current_track ~= nil then
