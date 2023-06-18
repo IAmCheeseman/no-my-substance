@@ -252,6 +252,7 @@ function player:on_key_press(key, _, _)
     if key == "e" and substance.unlocked and substance.amount == substance.max then
         self.health = self.max_health
         self.timers.substance:start()
+        self:start_substance()
     end
 
     if key == "m" then
