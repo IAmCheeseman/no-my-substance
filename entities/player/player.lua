@@ -8,6 +8,19 @@ local redo_spray_tan = love.audio.newSource("entities/player/voicelines/redospra
 local normal_sprite = Sprite.new("entities/player/player.png", 15, 10)
 local substance_sprite = Sprite.new("entities/player/playersubstancized.png", 15, 10)
 
+local step_sounds = {
+    love.audio.newSource("entities/player/footsteps/grass1.mp3", "stream"),
+    love.audio.newSource("entities/player/footsteps/grass2.mp3", "stream"),
+    love.audio.newSource("entities/player/footsteps/grass3.mp3", "stream"),
+    love.audio.newSource("entities/player/footsteps/grass4.mp3", "stream"),
+    love.audio.newSource("entities/player/footsteps/grass5.mp3", "stream"),
+    love.audio.newSource("entities/player/footsteps/grass6.mp3", "stream"),
+}
+
+for _, v in ipairs(step_sounds) do
+    v:setVolume(0.5)
+end
+
 local level_start_lines = {
     [1] = {
         line = redo_spray_tan, 
@@ -171,6 +184,16 @@ function player:stop_roll()
     self.timers.roll_cooldown:start()
 end
 
+function player:play_step_sound()
+    local input_x, input_y = Vector.get_input_direction("w", "a", "s", "d")
+    if input_x ~= 0 or input_y ~= 0 then
+        local sound = step_sounds[math.floor(love.math.random(1, #step_sounds))]
+        sound:play()
+    end
+
+    self.timers.step_sound:start()
+end
+
 
 function player:on_create()
     local camera = Objects.grab("Camera")
@@ -188,6 +211,9 @@ function player:on_create()
     self:create_timer("iframes", nil, 0.2)
     self:create_timer("substance", self.on_substance_end, substance.time)
     self:create_timer("flicker", nil, 0.15)
+    self:create_timer("step_sound", self.play_step_sound, 0.2)
+
+    self.timers.step_sound:start()
 
     self.hand = Objects.instance_at("Hand", self.x, self.y)
     self.gun = Objects.instance_at("Gun", self.x, self.y)
