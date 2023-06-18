@@ -12,6 +12,8 @@ local music_manager = {
     start = "Immediately",
     stop = "WhenOveridden",
 
+    check_stop = false,
+
     target_volume = 0.3,
     -- target_volume = 0,
     current_volume = 0,
@@ -36,25 +38,25 @@ function music_manager:on_room_change(room_name)
     if self.start == "Immediately" then
         self.change_track = true
     end
+
+    self.check_stop = false
 end
 
 function music_manager:on_update(dt)
-    if self.change_track then
-        if self.current_path ~= self.target_path then
-            if self.current_path == nil or self.current_volume <= 0.01 then
-                if self.current_path ~= nil then
-                    self.current_track:pause()
-                end
-
-                self.current_track = self.target_track
-                self.current_path = self.target_path
-                self.current_volume = 0
-                self.change_track = false
-                return
+    if self.change_track and self.current_path ~= self.target_path then
+        if self.current_path == nil or self.current_volume <= 0.01 then
+            if self.current_path ~= nil then
+                self.current_track:pause()
             end
 
-            self.current_volume = math.lerp(self.current_volume, 0, 3 * dt)
+            self.current_track = self.target_track
+            self.current_path = self.target_path
+            self.current_volume = 0
+            self.change_track = false
+            return
         end
+
+        self.current_volume = math.lerp(self.current_volume, 0, 3 * dt)
     else
         self.current_volume = math.lerp(self.current_volume, self.target_volume, 3 * dt)
     end
@@ -63,14 +65,18 @@ function music_manager:on_update(dt)
         self.current_track:setVolume(self.current_volume)
     end
 
-    -- if self.start == "WhenEnemyAggro" then
-    --     self.change_track = true
-    -- end
+    if self.check_stop then
+        -- if self.start == "WhenEnemyAggro" then
+        --     self.change_track = true
+        -- end
 
-    if self.stop == "WhenEnemiesKilled" and Objects.count_type("Enemy") == 0 then
-        self.target_path = nil
-        self.target_track = nil
-        self.change_track = true
+        if self.stop == "WhenEnemiesKilled" and Objects.count_type("Enemy") == 0 then
+            self.target_path = nil
+            self.target_track = nil
+            self.change_track = true
+        end
+    else
+        self.check_stop = true
     end
 end
 
