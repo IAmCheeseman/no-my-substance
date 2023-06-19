@@ -39,7 +39,7 @@ function save_data.load()
     if file_data == nil then
         return
     end
-    local data = split(file_data)
+    local data = split(love.data.decode("string", "base64", file_data))
 
     local i = 1
     while i < #data do
@@ -58,7 +58,8 @@ function save_data.save()
     save = save .. " substanceunlocked " .. tostring(substance.unlocked)
     save = save .. " substanceamount " .. tostring(substance.amount)
     save = save .. " currentlevel " .. tostring(current_level)
-    love.filesystem.write(save_path, save)
+    local encoded = love.data.encode("string", "base64", save)
+    love.filesystem.write(save_path, encoded)
 end
 
 function save_data.clear()
