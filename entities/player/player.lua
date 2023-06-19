@@ -202,6 +202,7 @@ function player:play_step_sound()
     if input_x ~= 0 or input_y ~= 0 then
         local sound_type = Room.get_cell("Paths", self.x, self.y) + 1
         local sound = step_sounds[sound_type][math.floor(love.math.random(1, #step_sounds[sound_type]))]
+        sound:setPitch(love.math.random(1, 1.3))
         sound:play()
     end
 
