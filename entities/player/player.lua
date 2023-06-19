@@ -9,15 +9,28 @@ local normal_sprite = Sprite.new("entities/player/player.png", 15, 10)
 local substance_sprite = Sprite.new("entities/player/playersubstancized.png", 15, 10)
 
 local step_sounds = {
-    love.audio.newSource("entities/player/footsteps/grass1.mp3", "stream"),
-    love.audio.newSource("entities/player/footsteps/grass2.mp3", "stream"),
-    love.audio.newSource("entities/player/footsteps/grass3.mp3", "stream"),
-    love.audio.newSource("entities/player/footsteps/grass4.mp3", "stream"),
-    love.audio.newSource("entities/player/footsteps/grass5.mp3", "stream"),
-    love.audio.newSource("entities/player/footsteps/grass6.mp3", "stream"),
+    [1] = {
+        love.audio.newSource("entities/player/footsteps/grass1.mp3", "stream"),
+        love.audio.newSource("entities/player/footsteps/grass2.mp3", "stream"),
+        love.audio.newSource("entities/player/footsteps/grass3.mp3", "stream"),
+        love.audio.newSource("entities/player/footsteps/grass4.mp3", "stream"),
+        love.audio.newSource("entities/player/footsteps/grass5.mp3", "stream"),
+        love.audio.newSource("entities/player/footsteps/grass6.mp3", "stream"),
+    },
+    [2] = {
+        love.audio.newSource("entities/player/footsteps/dirt1.mp3", "stream"),
+        love.audio.newSource("entities/player/footsteps/dirt2.mp3", "stream"),
+        love.audio.newSource("entities/player/footsteps/dirt3.mp3", "stream"),
+        love.audio.newSource("entities/player/footsteps/dirt4.mp3", "stream"),
+        love.audio.newSource("entities/player/footsteps/dirt5.mp3", "stream"),
+        love.audio.newSource("entities/player/footsteps/dirt6.mp3", "stream"),
+    }
 }
 
-for _, v in ipairs(step_sounds) do
+for _, v in ipairs(step_sounds[1]) do
+    v:setVolume(0.75)
+end
+for _, v in ipairs(step_sounds[2]) do
     v:setVolume(0.5)
 end
 
@@ -187,7 +200,8 @@ end
 function player:play_step_sound()
     local input_x, input_y = Vector.get_input_direction("w", "a", "s", "d")
     if input_x ~= 0 or input_y ~= 0 then
-        local sound = step_sounds[math.floor(love.math.random(1, #step_sounds))]
+        local sound_type = Room.get_cell("Paths", self.x, self.y) + 1
+        local sound = step_sounds[sound_type][math.floor(love.math.random(1, #step_sounds[sound_type]))]
         sound:play()
     end
 
