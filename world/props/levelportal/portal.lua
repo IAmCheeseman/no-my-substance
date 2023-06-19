@@ -1,4 +1,5 @@
 local logger = require "gui.log"
+local save_data = require "savedata"
 
 local woosh = love.audio.newSource("world/props/levelportal/woosh.mp3", "stream")
 
@@ -36,6 +37,7 @@ function level_portal:on_update(dt)
             current_level = 1
         end
         Room.change_to(get_current_level())
+        save_data.save()
 
         woosh:play()
     end

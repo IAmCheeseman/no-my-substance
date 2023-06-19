@@ -1,4 +1,5 @@
 local substace = require "substance"
+local save_data = require "savedata"
 local logger = require "gui.log"
 
 godmode = false
@@ -138,6 +139,11 @@ Objects.create_type("CommandExecutor", {
             clip = not clip
 
             logger.log_message("Noclip " .. (clip and "enabled" or "disabled"))
+        end,
+        ["clearsave"] = function(self)
+            save_data.clear()
+
+            logger.log_message("Cleared save data.")
         end
     },
 
