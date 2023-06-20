@@ -17,7 +17,7 @@ function data_collector:on_room_change(room)
         data_collection:add_level_time(last_level, self.time - self.level_start_time)
 
         last_level = current_level
-        data_collection:entered_level(last_level, 32)
+        data_collection:entered_level()
         self.level_start_time = self.time
     end
 end
