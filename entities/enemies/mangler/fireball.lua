@@ -25,8 +25,9 @@ function fireball:on_update(dt)
 
     local dist = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
     if dist < 12 then
-        self.player:take_damage(2.5, self.dir_x, self.dir_y)
-        Objects.destroy(self)
+        if self.player:take_damage(2.5, self.dir_x, self.dir_y) then
+            Objects.destroy(self)
+        end
     end
 
     self.x = self.x + self.dir_x * self.speed * dt

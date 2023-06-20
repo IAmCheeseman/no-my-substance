@@ -1,5 +1,8 @@
 local mangler_spawner = {
     rate = 3,
+
+    can_spawn_rapid = false,
+    rapid_chance = 0.5,
 }
 
 function mangler_spawner:get_mangler_position(tries)
@@ -30,7 +33,12 @@ function mangler_spawner:spawn_mangler()
     if x == nil and y == nil then
         return
     end
-    Objects.instance_at("Mangler", x, y)
+
+    if self.can_spawn_rapid and love.math.random() < self.rapid_chance then
+        Objects.instance_at("RapidMangler", x, y)
+    else
+        Objects.instance_at("Mangler", x, y)
+    end
 end
 
 function mangler_spawner:on_create()
