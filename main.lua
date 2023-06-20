@@ -1,12 +1,3 @@
-love.filesystem.write("log.txt", "")
-
-local old_print = print
-function print(what)
-    local log = love.filesystem.read("log.txt")
-    love.filesystem.write("log.txt", log .. what .. "\n")
-    old_print(what)
-end
-
 Game = require "core"
 
 local data_collection = require "datacollection"
