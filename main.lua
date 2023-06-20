@@ -18,3 +18,4 @@ function love.load()
     data_collection:initialize()
     data_collection:entered_level()
 end
+
