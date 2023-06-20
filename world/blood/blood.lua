@@ -29,7 +29,6 @@ if not Objects.does_type_exist("BloodManager") then
         if self.canvas ~= nil then
             self.canvas:release()
         end
-        print(Room.room_width, Room.room_height)
         self.canvas = love.graphics.newCanvas(Room.room_width, Room.room_height)
         self.depth = -Room.room_height
     end
