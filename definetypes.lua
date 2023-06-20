@@ -2,6 +2,7 @@
 local excluded_dirs = {
     "/.git",
     "/core",
+    "/json",
 }
 
 local excluded_files = {

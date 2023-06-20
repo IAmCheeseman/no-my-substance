@@ -1,3 +1,6 @@
 [submodule "core"]
 	path = core
 	url = https://github.com/IAmCheeseman/love2D-base
+[submodule "json"]
+	path = json
+	url = https://github.com/rxi/json.lua.git
