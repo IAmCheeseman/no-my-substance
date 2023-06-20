@@ -5,6 +5,14 @@ local mangler_spawner = {
     rapid_chance = 0.5,
 }
 
+function mangler_spawner:check_position(x, y)
+    return Room.get_cell("Solids", x, y) == 2 and
+            Room.get_cell("Solids", x + 8, y) == 2 and 
+            Room.get_cell("Solids", x - 8, y) == 2 and
+            Room.get_cell("Solids", x, y + 8) == 2 and
+            Room.get_cell("Solids", x, y - 8) == 2
+end
+
 function mangler_spawner:get_mangler_position(tries)
     tries = tries or 0
 
@@ -19,7 +27,7 @@ function mangler_spawner:get_mangler_position(tries)
     x = x + math.cos(rot) * dist
     y = y + math.sin(rot) * dist
 
-    if Room.get_cell("Solids", x, y) ~= 2 then
+    if not self:check_position(x, y) then
         return self:get_mangler_position(tries + 1)
     end
 
