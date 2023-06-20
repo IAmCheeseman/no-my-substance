@@ -24,7 +24,7 @@ function substance_ball:dissapate(dt)
         v.x = v.x + vx * (v.speed / 2) * dt
         v.y = v.y + vy * (v.speed / 2) * dt
 
-        if Vector.length(v.x, v.y) > 10 then
+        if Vector.length(v.x, v.y) > self.circle_radius then
             v.dx = -vx
             v.dy = -vy
 
@@ -63,7 +63,7 @@ function substance_ball:default(dt)
     self.dir_x = math.lerp(self.dir_x, dir_x * self.speed, self.accel * dt)
     self.dir_y = math.lerp(self.dir_y, dir_y * self.speed, self.accel * dt)
 
-    if dist < 10 then
+    if dist < self.circle_radius / 1.5 then
         if self.player:take_damage(self.damage, dir_x, dir_y) then
             self.state = self.dissapate
         end
