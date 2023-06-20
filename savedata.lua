@@ -33,28 +33,6 @@ local mapping = {
     }
 }
 
-local function load_table(data, index, map)
-    local i = index
-
-    local tab = {}
-
-    while true do
-        local identifier = data[i]
-        if identifier == "}" then
-            break
-        end
-        local value = data[i + 1]
-    
-        table.insert(tab, map.conv(value))
-    
-        i = i + 1
-    end
-
-    map.tab[map.name] = tab
-
-    return i + 1
-end
-
 function save_data.load()
     local file_data = love.filesystem.read(save_path)
     if file_data == nil then
