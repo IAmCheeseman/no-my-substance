@@ -14,10 +14,10 @@ end
 
 function data_collector:on_room_change(room)
     if current_level ~= last_level then
-        data_collection:add_level_time(last_level, self.time - self.level_start_time)
+        data_collection.add_level_time(last_level, self.time - self.level_start_time)
 
         last_level = current_level
-        data_collection:entered_level()
+        data_collection.entered_level()
         self.level_start_time = self.time
     end
 end
