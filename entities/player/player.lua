@@ -2,6 +2,7 @@ local gui = require "gui.gui"
 local voiceline = require "entities.voicelineplayer"
 local collision = require "entities.collide"
 local substance = require "substance"
+local data_collection = require "datacollection"
 
 local redo_spray_tan = love.audio.newSource("entities/player/voicelines/redospraytan.mp3", "stream")
 
@@ -172,6 +173,9 @@ function player:take_damage(damage, kb_x, kb_y)
     self.health = self.health - total_damage
 
     if self.health <= 0 then
+        if self.state ~= self.dead then
+            data_collection:add_death()
+        end
         Objects.destroy(self.hand)
         Objects.destroy(self.gun)
         self.state = self.dead

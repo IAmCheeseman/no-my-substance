@@ -19,8 +19,6 @@ function data_collector:on_room_change(room)
         last_level = current_level
         data_collection:entered_level(last_level, 32)
         self.level_start_time = self.time
-    else
-        data_collection:add_death()
     end
 end
 
