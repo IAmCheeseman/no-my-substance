@@ -68,8 +68,8 @@ function camera:on_update(dt)
     mx = mx - self.tracked.x
     my = my - self.tracked.y
 
-    self.wx = mx * 0.06
-    self.wy = my * 0.06
+    self.wx = mx * 0.15
+    self.wy = my * 0.15
 
     self.sx = math.lerp(self.sx, 0, 25 * dt)
     self.sy = math.lerp(self.sy, 0, 25 * dt)
