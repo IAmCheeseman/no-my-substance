@@ -93,9 +93,11 @@ function wave_manager:on_create()
     self.player = Objects.grab("Player")
     
     self:create_timer("spawn_enemy", self.spawn_enemy, 0.2)
-    self:create_timer("wave", self.wave_start, 3)
+    self:create_timer("wave", nil, 3)
     
     self.timers.wave:start()
+
+    Objects.instance("ScoreCircle")
 end
 
 function wave_manager:on_update(dt)

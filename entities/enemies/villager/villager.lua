@@ -52,7 +52,7 @@ end
 function villager:on_attack_over()
     if self.state == self.default or self.current_shots > self.max_shots then
         self.current_shots = 0
-        self.timers.attack:start(5)
+        self.timers.attack:start(3)
         return
     end
     self.gun:shoot()
@@ -79,7 +79,7 @@ function villager:on_create()
 
     self.state = Objects.count_type("WaveManager") == 0 and self.default or self.charge
 
-    self.timers.attack:start()
+    self.timers.attack:start(love.math.random(0.2, 1))
 end
 function villager:on_update(dt)
     self:call_from_base("on_update", dt)

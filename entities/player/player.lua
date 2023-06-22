@@ -289,20 +289,35 @@ function player:on_draw()
     love.graphics.setShader()
 
     love.graphics.setColor(1, 0, 0, 0.25)
-    love.graphics.setLineStyle("rough")
     love.graphics.setLineWidth(2)
-
+    love.graphics.setLineStyle("rough")
+    local triangle_angle = math.pi / 32
+    
     local camera_aabb = AABB.new(Game.camera_x - 160, Game.camera_y - 90, 320, 180)
-
+    
     if Objects.grab("WaveManager") then
         Objects.with("Enemy", function(other)
             if camera_aabb:is_enclosing_point(other.x, other.y) then
                 return
             end
             local dir_x, dir_y = Vector.direction_between(self.x, self.y, other.x, other.y)
-            local dx1, dy1 = self.x + dir_x * 32, self.y + dir_y * 32
-            local dx2, dy2 = self.x + dir_x * 48, self.y + dir_y * 48
-            love.graphics.line(dx1, dy1, dx2, dy2)
+
+            local dx1, dy1 = Vector.rotated(dir_x, dir_y, -triangle_angle)
+            local dx2, dy2 = self.x + dir_x * 40, self.y + dir_y * 40
+            local dx3, dy3 = Vector.rotated(dir_x, dir_y, triangle_angle)
+            local dx4, dy4 = self.x + dir_x * 35, self.y + dir_y * 35
+
+            dx1 = dx1 * 32
+            dy1 = dy1 * 32
+            dx3 = dx3 * 32
+            dy3 = dy3 * 32
+
+            dx1 = dx1 + self.x
+            dy1 = dy1 + self.y
+            dx3 = dx3 + self.x
+            dy3 = dy3 + self.y
+
+            love.graphics.polygon("line", dx1, dy1, dx2, dy2, dx3, dy3, dx4, dy4)
         end)
     end
 end

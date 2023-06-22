@@ -35,28 +35,6 @@ local function on_create(self)
     self.depth = self.y
 
     self.sprite = self.sprites[love.math.random(1, #self.sprites)]
-    -- local image_data = love.image.newImageData(self.sprite.path)
-    
-    -- local sx, sy =  self.x - self.sprite.offset_x, (self.y - self.sprite.offset_y + 8) / 2
-    -- local x, y = sx, sy
-
-    -- local sprite_width, sprite_height = self.sprite.texture:getWidth() - 1, self.sprite.texture:getHeight() - 1
-
-    -- for w = 1, self.sprite.texture:getWidth() / 16 do
-    --     for h = 1, ((self.sprite.texture:getHeight() + 1) / 16) / 2 do
-    --         local _, _, _, a = image_data:getPixel(
-    --             math.min(w * 16 - 8, sprite_width), 
-    --             math.min(h * 16 - 8, sprite_height))
-    --         if Room.get_cell("Solids", x, y) == 0 and a ~= 0 then
-    --             Room.set_cell("Solids", 5, x, y)
-    --         end
-
-    --         y = y + 16
-    --     end
-
-    --     y = sy
-    --     x = x + 16
-    -- end
 
     self.player = Objects.grab("Player")
 end
