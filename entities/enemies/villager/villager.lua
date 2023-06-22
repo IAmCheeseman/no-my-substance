@@ -81,7 +81,7 @@ function villager:on_create()
     self.gun = Objects.instance_at("Uzi", self.x, self.y)
     self.gun.target = self
 
-    self.state = self.default
+    self.state = Objects.count_type("WaveManager") == 0 and self.default or self.charge
 end
 function villager:on_update(dt)
     self:call_from_base("on_update", dt)
@@ -92,8 +92,8 @@ function villager:on_death()
     Objects.destroy(self.gun)
     
     if love.math.random() < 0.2 then
-        local death_sfx = substance.unlocked and substance_death or death
-        local subtitle = substance.unlocked and "NOOO! MY SUBSTANCE!" or "NOOO!"
+        local death_sfx = substance.is_unlocked() and substance_death or death
+        local subtitle = substance.is_unlocked() and "NOOO! MY SUBSTANCE!" or "NOOO!"
         voiceline.play_line(death_sfx, 0, "Villager", subtitle)
     end
 end

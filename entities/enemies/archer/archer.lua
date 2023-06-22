@@ -101,7 +101,7 @@ function archer:on_create()
     self.bow = Objects.instance_at("ArcherBow", self.x, self.y)
     self.bow.target = self
 
-    self.state = self.default
+    self.state = Objects.count_type("WaveManager") == 0 and self.default or self.charge
 end
 function archer:on_update(dt)
     self:call_from_base("on_update", dt)
@@ -112,8 +112,8 @@ function archer:on_death()
     Objects.destroy(self.bow)
     
     if love.math.random() < 0.2 then
-        local death_sfx = substance.unlocked and substance_death or death
-        local subtitle = substance.unlocked and "NOOO! MY SUBSTANCE!" or "NOOO!"
+        local death_sfx = substance.is_unlocked() and substance_death or death
+        local subtitle = substance.is_unlocked() and "NOOO! MY SUBSTANCE!" or "NOOO!"
         voiceline.play_line(death_sfx, 0, "Archer", subtitle)
     end
 end

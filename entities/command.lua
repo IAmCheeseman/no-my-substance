@@ -144,6 +144,11 @@ Objects.create_type("CommandExecutor", {
             save_data.clear()
 
             logger.log_message("Cleared save data.")
+        end,
+        ["wave"] = function(self)
+            Room.change_to("WaveArena")
+
+            logger.log_message("Wave mode!")
         end
     },
 

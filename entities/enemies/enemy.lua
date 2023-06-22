@@ -22,6 +22,8 @@ local enemy = {
     
     vel_x = 0,
     vel_y = 0,
+
+    on_death_connections = {},
 }
 
 function enemy:take_damage(damage, kb_x, kb_y)
@@ -37,7 +39,7 @@ function enemy:take_damage(damage, kb_x, kb_y)
 
         Objects.destroy(self)
 
-        if substance.unlocked and not substance.active then
+        if substance.is_unlocked() and not substance.active then
             substance.give_substance(self.substance_amount)
             local new_substace = Objects.instance_at("Substance", self.x, self.y)
         end
@@ -51,6 +53,10 @@ function enemy:take_damage(damage, kb_x, kb_y)
 
         if self.on_death then
             self:on_death()
+        end
+
+        for _, v in ipairs(self.on_death_connections) do
+            v[2](v[1], self)
         end
     end
     

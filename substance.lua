@@ -13,4 +13,8 @@ function module.give_substance(amount)
     module.amount = math.clamp(module.amount + amount, 0, module.max)
 end
 
+function module.is_unlocked()
+    return module.unlocked or Objects.grab("WaveManager")
+end
+
 return module

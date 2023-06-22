@@ -287,6 +287,24 @@ function player:on_draw()
     self.damage_flash_shader:send("is_on", (self.timers.iframes.time < 0 and self.timers.flicker.time < 0) and 0 or 1)
     self.sprite:draw(self.x, self.y)
     love.graphics.setShader()
+
+    love.graphics.setColor(1, 0, 0, 0.25)
+    love.graphics.setLineStyle("rough")
+    love.graphics.setLineWidth(2)
+
+    local camera_aabb = AABB.new(Game.camera_x - 160, Game.camera_y - 90, 320, 180)
+
+    if Objects.grab("WaveManager") then
+        Objects.with("Enemy", function(other)
+            if camera_aabb:is_enclosing_point(other.x, other.y) then
+                return
+            end
+            local dir_x, dir_y = Vector.direction_between(self.x, self.y, other.x, other.y)
+            local dx1, dy1 = self.x + dir_x * 32, self.y + dir_y * 32
+            local dx2, dy2 = self.x + dir_x * 48, self.y + dir_y * 48
+            love.graphics.line(dx1, dy1, dx2, dy2)
+        end)
+    end
 end
 
 function player:on_key_press(key, _, _)
@@ -294,7 +312,7 @@ function player:on_key_press(key, _, _)
         Room.reset()
     end
 
-    if key == "e" and substance.unlocked and substance.amount == substance.max then
+    if key == "e" and substance.is_unlocked() and substance.amount == substance.max then
         self.health = self.max_health
         self.timers.substance:start()
         self:start_substance()
@@ -319,7 +337,7 @@ function player:on_gui()
     love.graphics.print(math.floor(self.health / self.max_health * 100) .. "%", 7, 5)
 
     -- Substance
-    if substance.unlocked or substance.active then
+    if substance.is_unlocked() or substance.active then
         gui.bar(5, 14, 50, 5, { 0.06, 0.07, 0.12 }, { 0, 1, 1 }, substance.amount / substance.max)
     end
 
