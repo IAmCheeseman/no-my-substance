@@ -149,7 +149,14 @@ Objects.create_type("CommandExecutor", {
             Room.change_to("WaveArena")
 
             logger.log_message("Wave mode!")
-        end
+        end,
+        ["setwave%d"] = function(self)
+            local wave = string.gsub(self.current_command, "[^%d]", "")
+            local wave_manager = Objects.grab("WaveManager")
+            wave_manager.current_wave = tonumber(wave)
+
+            logger.log_message("Set wave to " .. wave)
+        end,
     },
 
     on_key_press = function(self, key, _, _)

@@ -371,6 +371,14 @@ function player:on_gui()
 
         gui.outlined_text("DEATH HAS FALLEN UPON YOU", 0, 180 / 2 - 32, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
         gui.outlined_text("PRESS ''R'' TO REINCARNATE", 0, 180 / 2 + 32, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
+
+        local wave_manager = Objects.grab("WaveManager")
+        if wave_manager then
+            local text = "YOU REACHED " .. 
+                math.floor(wave_manager.enemy_kills / wave_manager:get_target_enemy_count() * 100) .. 
+                "% THROUGH WAVE #" .. wave_manager.current_wave
+            gui.outlined_text(text, 0, 180 / 2 - 32 - 16, 320, "center", { 0, 0, 0 }, { 1, 0.1, 0.3 })
+        end
     end
 end
 

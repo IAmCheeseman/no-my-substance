@@ -25,7 +25,7 @@ local wave_manager = {
 }
 
 function wave_manager:get_target_enemy_count()
-    return math.floor(5 * 1.25^self.current_wave)
+    return math.floor(5 + math.atan(self.current_wave / 10) * 70)
 end
 
 function wave_manager:get_random_enemy()
