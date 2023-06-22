@@ -40,11 +40,6 @@ function villager:charge(dt)
     self.sprite.scale_x = self.target.x < self.x and -1 or 1
 
     collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
-
-    local dist_to_player = Vector.distance_between(self.x, self.y, self.player.x, self.player.y)
-    if dist_to_player < 90 and self.timers.attack.is_over then
-        self.timers.attack:start()
-    end
 end
 
 function villager:default(dt)
@@ -57,6 +52,7 @@ end
 function villager:on_attack_over()
     if self.state == self.default or self.current_shots > self.max_shots then
         self.current_shots = 0
+        self.timers.attack:start(5)
         return
     end
     self.gun:shoot()
@@ -67,7 +63,7 @@ function villager:on_attack_over()
 
     self.current_shots = self.current_shots + 1
 
-    self.timers.attack:start()
+    self.timers.attack:start(0.1)
 end
 
 function villager:on_create()
@@ -82,6 +78,8 @@ function villager:on_create()
     self.gun.target = self
 
     self.state = Objects.count_type("WaveManager") == 0 and self.default or self.charge
+
+    self.timers.attack:start()
 end
 function villager:on_update(dt)
     self:call_from_base("on_update", dt)
