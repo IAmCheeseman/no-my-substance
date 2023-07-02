@@ -21,6 +21,8 @@ function corpse:on_update(dt)
     self.vel_x = math.lerp(self.vel_x, 0, self.frict * dt)
     self.vel_y = math.lerp(self.vel_y, 0, self.frict * dt)
 
+    self.sprite.scale_x = self.vel_x < 0 and 1 or -1
+
     collision.move(self, "Solids", self.vel_x * dt, self.vel_y * dt)
 
     self.depth = self.y

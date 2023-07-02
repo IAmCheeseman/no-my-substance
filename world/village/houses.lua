@@ -2,20 +2,20 @@ local house_sprites = {
     {
         shadow_offset = -9,
         sprites = {
-            Sprite.new("world/village/house1.png", 1, 0),
-            Sprite.new("world/village/house2.png", 1, 0),
-            Sprite.new("world/village/house3.png", 1, 0),
-            Sprite.new("world/village/house4.png", 1, 0),
-            Sprite.new("world/village/house5.png", 1, 0),
+            Sprite.new("world/village/house1.png",  1, 0),
+            Sprite.new("world/village/house2.png",  1, 0),
+            Sprite.new("world/village/house3.png",  1, 0),
+            Sprite.new("world/village/house4.png",  1, 0),
+            Sprite.new("world/village/house5.png",  1, 0),
         }
     },
     {
         shadow_offset = -8,
         sprites = {
-            Sprite.new("world/village/house6.png", 1, 0),
-            Sprite.new("world/village/house7.png", 1, 0),
-            Sprite.new("world/village/house8.png", 1, 0),
-            Sprite.new("world/village/house9.png", 1, 0),
+            Sprite.new("world/village/house6.png",  1, 0),
+            Sprite.new("world/village/house7.png",  1, 0),
+            Sprite.new("world/village/house8.png",  1, 0),
+            Sprite.new("world/village/house9.png",  1, 0),
             Sprite.new("world/village/house10.png", 1, 0),
         }
     },
